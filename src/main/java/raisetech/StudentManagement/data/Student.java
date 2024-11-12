@@ -8,6 +8,7 @@ import lombok.Setter;
 
 public class Student {
 
+  private String studentId;
   private String name;
   private String furigana;
   private String nickname;
