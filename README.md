@@ -7,4 +7,5 @@ studentListの画面表示
 
 
 studentCourseListの画面表示
+※ただし、列幅が統一されておらず見た目が汚い
 <img width="646" alt="スクリーンショット 2024-12-17 19 01 54" src="https://github.com/user-attachments/assets/1324f313-c6d4-458e-88ff-6aea20aed28e" />
