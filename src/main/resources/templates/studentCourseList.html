@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>受講生コース一覧</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* 列幅を固定 */
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left; /* テキストを中央揃え */
+      word-wrap: break-word; /* テキストの折り返し */
+    }
+    th {
+      background-color: #f2f2f2; /* ヘッダー背景色 */
+    }
+  </style>
+</head>
+<body>
+<h1>受講生コース一覧</h1>
+<table border="1">
+  <thead>
+  <tr>
+    <th style="width: 10%;">Course_ID</th>
+    <th style="width: 10%;">Student_ID</th>
+    <th style="width: 15%;">名前</th>
+    <th style="width: 15%;">カナ名</th>
+    <th style="width: 20%;">コース名</th>
+    <th style="width: 15%;">受講開始日時</th>
+    <th style="width: 15%;">修了日(修了予定日)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="studentDetail : ${studentCourseList}">
+    <td colspan="7">
+      <table border="1">
+        <tr th:each="course : ${studentDetail.studentCourses}">
+          <td th:text="${course.courseId}">1</td>
+          <td th:text="${studentDetail.student.studentId}">1</td>
+          <td th:text="${studentDetail.student.name}">山田太郎</td>
+          <td th:text="${studentDetail.student.furigana}">ヤマダタロウ</td>
+          <td th:text="${course.courseName}">Java</td>
+          <td th:text="${course.startDate}">2024-01-01 00:00:00</td>
+          <td th:text="${course.expectedEndDate}">2024-08-10 00:00:00</td>
+        </tr>
+      </table>
+    </td>
+
+  </tbody>
+</table>
+</body>
+</html>
