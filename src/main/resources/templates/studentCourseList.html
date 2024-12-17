@@ -2,19 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>受講生コース一覧</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* 列幅を固定 */
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left; /* テキストを中央揃え */
+      word-wrap: break-word; /* テキストの折り返し */
+    }
+    th {
+      background-color: #f2f2f2; /* ヘッダー背景色 */
+    }
+  </style>
 </head>
 <body>
 <h1>受講生コース一覧</h1>
 <table border="1">
   <thead>
   <tr>
-    <th>Course_ID</th>
-    <th>Student_ID</th>
-    <th>名前</th>
-    <th>カナ名</th>
-    <th>コース名</th>
-    <th>受講開始日時</th>
-    <th>修了日(修了予定日)</th>
+    <th style="width: 10%;">Course_ID</th>
+    <th style="width: 10%;">Student_ID</th>
+    <th style="width: 15%;">名前</th>
+    <th style="width: 15%;">カナ名</th>
+    <th style="width: 20%;">コース名</th>
+    <th style="width: 15%;">受講開始日時</th>
+    <th style="width: 15%;">修了日(修了予定日)</th>
   </tr>
   </thead>
   <tbody>
