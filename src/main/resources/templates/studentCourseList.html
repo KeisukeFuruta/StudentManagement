@@ -19,13 +19,19 @@
   </thead>
   <tbody>
   <tr th:each="studentDetail : ${studentCourseList}">
-    <td th:text="${studentDetail.student.studentId}">1</td>
-    <td th:text="${studentDetail.List<studentCourses>.courseId}">1</td>
-    <td th:text="${studentDetail.student.name}">山田太郎</td>
-    <td th:text="${studentDetail.student.furigana}">ヤマダタロウ</td>
-    <td th:text="${studentDetail.List<studentCourses>.courseName}">Java</td>
-    <td th:text="${studentDetail.List<studentCourses>.startDate}">2024-01-01 00:00:00</td>
-    <td th:text="${studentDetail.List<studentCourses>.expectedEndDate}">2024-08-10 00:00:00</td>
+    <td colspan="7">
+      <table border="1">
+        <tr th:each="course : ${studentDetail.studentCourses}">
+          <td th:text="${course.courseId}">1</td>
+          <td th:text="${studentDetail.student.studentId}">1</td>
+          <td th:text="${studentDetail.student.name}">山田太郎</td>
+          <td th:text="${studentDetail.student.furigana}">ヤマダタロウ</td>
+          <td th:text="${course.courseName}">Java</td>
+          <td th:text="${course.startDate}">2024-01-01 00:00:00</td>
+          <td th:text="${course.expectedEndDate}">2024-08-10 00:00:00</td>
+        </tr>
+      </table>
+    </td>
 
   </tbody>
 </table>
