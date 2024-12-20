@@ -6,9 +6,11 @@ Javaコースで作成中の受講生管理システムです。
 
 <img width="315" alt="スクリーンショット 2024-12-20 10 14 29" src="https://github.com/user-attachments/assets/b56cba43-b482-46d9-bd5e-6d93cc0c9bbb" />
 
+
 登録前の受講生一覧　※studentIdの7〜16まで消えているが、検証のためSQLで追加していたデータを削除したため
 
 <img width="916" alt="スクリーンショット 2024-12-20 10 15 42" src="https://github.com/user-attachments/assets/640e460c-109b-4b7a-80d6-57d9268da16e" />
+
 
 登録後の受講生一覧
 与えたデータは一枚目の画像の通り
