@@ -9,6 +9,7 @@
   <div>
     <label for="name">名前</label>
     <input type="text" id="name" th:field="*{student.name}" required/>
+    <div th:if="${#fields.hasErrors('student.name')}" th:errors="*{student.name}"></div>
   </div>
   <div>
     <label for="furigana">フリガナ</label>

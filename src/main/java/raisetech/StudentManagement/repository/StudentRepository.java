@@ -35,4 +35,6 @@ public interface StudentRepository {
       "INSERT INTO students (name,furigana,nickname,email_address,residential_area,age,gender,remark,is_deleted)"
           + "VALUES (#{name}, #{furigana}, #{nickname}, #{emailAddress}, #{residentialArea}, #{age}, #{gender}, #{remark}, false)")
   void registerStudent(Student student);
+
+
 }
