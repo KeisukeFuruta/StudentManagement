@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.data;
 
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ public class Student {
   private String name;
   private String furigana;
   private String nickname;
+  @Email
   private String emailAddress;
   private String residentialArea;
   private int age;
