@@ -58,16 +58,12 @@ public class StudentController {
   public String registerStudent(@ModelAttribute @Valid StudentDetail studentDetail,
       BindingResult result, Model model) {
     if (result.hasErrors()) {
-      System.out.println("エラー？");
       result.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
       return "registerStudent";
     }
-    System.out.println("エラーじゃないかも");
-    System.out.println(studentDetail.getStudent().getStudentId());
-    System.out.println(studentDetail.getStudent().getName());
-    System.out.println(studentDetail.getStudent().getAge());
 
     service.registerStudent(studentDetail);
+    service.registerStudentCourse(studentDetail);
 
     return "redirect:/studentList";
   }

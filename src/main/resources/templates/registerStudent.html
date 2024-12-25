@@ -49,8 +49,14 @@
     <input type="text" id="remark" th:field="*{student.remark}">
   </div>
   <div>
-    <label for="isDeleted">キャンセル</label>
-    <input type="checkbox" id="isDeleted" th:checked="*{student.isDeleted}">
+    <label for="courseName">コース名</label>
+    <select id="courseName" th:field="*{StudentCourses[0].courseName}">
+      <option value="Javaコース">Javaコース</option>
+      <option value="AWSコース">AWSコース</option>
+      <option value="デザインコース">デザインコース</option>
+      <option value="WPコース">WPコース</option>
+      <option value="Webマーケティングコース">Webマーケティングコース</option>
+    </select>
   </div>
   <div>
     <button type="submit">登録</button>
