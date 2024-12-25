@@ -49,8 +49,8 @@
     <input type="text" id="remark" th:field="*{student.remark}">
   </div>
   <div>
-    <label for="courseName">コース名</label>
-    <select id="courseName" th:field="*{StudentCourses[0].courseName}">
+    <label for="courseName1">コース名①</label>
+    <select id="courseName1" th:field="*{StudentCourses[0].courseName}">
       <option value="Javaコース">Javaコース</option>
       <option value="AWSコース">AWSコース</option>
       <option value="デザインコース">デザインコース</option>
@@ -58,6 +58,20 @@
       <option value="Webマーケティングコース">Webマーケティングコース</option>
     </select>
   </div>
+  <div>
+    <label for="courseName2">コース名②</label>
+    <select id="courseName2" th:field="*{StudentCourses[1].courseName}">
+      <option value="Javaコース">Javaコース</option>
+      <option value="AWSコース">AWSコース</option>
+      <option value="デザインコース">デザインコース</option>
+      <option value="WPコース">WPコース</option>
+      <option value="Webマーケティングコース">Webマーケティングコース</option>
+    </select>
+  </div>
+
+  <!-- エラーメッセージを表示 -->
+  <div th:if="${#fields.hasErrors('studentCourses')}" th:errors="*{studentCourses}"></div>
+
   <div>
     <button type="submit">登録</button>
   </div>

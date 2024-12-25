@@ -57,6 +57,12 @@ public class StudentController {
   @PostMapping("/registerStudent")
   public String registerStudent(@ModelAttribute @Valid StudentDetail studentDetail,
       BindingResult result, Model model) {
+    // 重複チェック
+    if (service.hasDuplicateCourses(studentDetail)) {
+      result.rejectValue("studentCourses", "error.studentCourses",
+          "重複したコース名は登録できません");
+    }
+
     if (result.hasErrors()) {
       result.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
       return "registerStudent";

@@ -1,7 +1,10 @@
 package raisetech.StudentManagement.service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import raisetech.StudentManagement.data.Student;
@@ -40,7 +43,16 @@ public class StudentService {
       studentCourse.setExpectedEndDate(LocalDateTime.now().plusYears(1));
     }
     repository.registerStudentCourses(studentDetail.getStudentCourses());
+  }
 
+  public boolean hasDuplicateCourses(StudentDetail studentDetail) {
+    List<String> courseNames = studentDetail.getStudentCourses().stream()
+        .map(StudentCourse::getCourseName)
+        .collect(Collectors.toList());
+
+    // 重複チェック
+    Set<String> uniqueCourses = new HashSet<>(courseNames);
+    return uniqueCourses.size() != courseNames.size();
   }
 
 }
