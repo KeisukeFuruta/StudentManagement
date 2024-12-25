@@ -21,8 +21,10 @@ s/assets/b56cba43-b482-46d9-bd5e-6d93cc0c9bbb" />
 <img width="927" alt="スクリーンショット 2024-12-20 10 19 18" src="https://github.com/user-attachments/assets/3cc730d5-2886-44ea-99f2-98ed6d655300" />
 
 上記に追加して、受講コースを登録する機能を追加。
-![スクリーンショット 2024-12-25 11.36.26.png](../../Desktop/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202024-12-25%2011.36.26.png)
+
+<img width="308" alt="スクリーンショット 2024-12-25 11 36 26" src="https://github.com/user-attachments/assets/be21dee2-480f-4790-be2b-e1ac7c7b3e0c" />
 
 与えたデータとその結果は以下のとおり
-![スクリーンショット 2024-12-25 11.39.45.png](../../Desktop/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202024-12-25%2011.39.45.png)
-![スクリーンショット 2024-12-25 11.39.40.png](../../Desktop/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202024-12-25%2011.39.40.png)
+
+<img width="285" alt="スクリーンショット 2024-12-25 11 39 45" src="https://github.com/user-attachments/assets/a3844ff2-2379-490e-9d4a-90a26226a666" />
+<img width="1149" alt="スクリーンショット 2024-12-25 11 39 40" src="https://github.com/user-attachments/assets/e0dd156d-7324-49de-a74e-2f5320bd3581" />
