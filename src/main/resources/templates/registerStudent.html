@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>受講生登録</title>
+</head>
+<body>
+<h1>受講生登録</h1>
+<form th:action="@{/registerStudent}" th:object="${studentDetail}" method="post">
+  <div>
+    <label for="name">名前</label>
+    <input type="text" id="name" th:field="*{student.name}" required/>
+    <div th:if="${#fields.hasErrors('student.name')}" th:errors="*{student.name}"></div>
+  </div>
+  <div>
+    <label for="furigana">フリガナ</label>
+    <input type="text" id="furigana" th:field="*{student.furigana}" required/>
+  </div>
+  <div>
+    <label for="nickname">ニックネーム</label>
+    <input type="text" id="nickname" th:field="*{student.nickname}" required/>
+  </div>
+  <div>
+    <label for="emailAddress">メールアドレス</label>
+    <input type="email" id="emailAddress" th:field="*{student.emailAddress}" required
+           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+           title="有効なメールアドレスを入力してください（例: example@example.com）">
+  </div>
+  <div>
+    <label for="residentialArea">地域</label>
+    <input type="text" id="residentialArea" th:field="*{student.residentialArea}" required/>
+  </div>
+  <div>
+    <label for="age">年齢</label>
+    <input type="number" id="age" th:field="*{student.age}" min="0" max="100" required/>
+  </div>
+  <div>
+    <span>性別</span>
+    <input type="radio" id="male" name="student.gender" value="男性" th:field="*{student.gender}"/>
+    <label for="male">男性</label>
+    <input type="radio" id="female" name="student.gender" value="女性"
+           th:field="*{student.gender}"/>
+    <label for="female">女性</label>
+    <input type="radio" id="other" name="student.gender" value="その他"
+           th:field="*{student.gender}"/>
+    <label for="other">その他</label>
+  </div>
+  <div>
+    <label for="remark">備考</label>
+    <input type="text" id="remark" th:field="*{student.remark}">
+  </div>
+  <div>
+    <label for="courseName1">コース名①</label>
+    <select id="courseName1" th:field="*{StudentCourses[0].courseName}">
+      <option value="Javaコース">Javaコース</option>
+      <option value="AWSコース">AWSコース</option>
+      <option value="デザインコース">デザインコース</option>
+      <option value="WPコース">WPコース</option>
+      <option value="Webマーケティングコース">Webマーケティングコース</option>
+    </select>
+  </div>
+  <div>
+    <label for="courseName2">コース名②</label>
+    <select id="courseName2" th:field="*{StudentCourses[1].courseName}">
+      <option value="Javaコース">Javaコース</option>
+      <option value="AWSコース">AWSコース</option>
+      <option value="デザインコース">デザインコース</option>
+      <option value="WPコース">WPコース</option>
+      <option value="Webマーケティングコース">Webマーケティングコース</option>
+    </select>
+  </div>
+
+  <!-- エラーメッセージを表示 -->
+  <div th:if="${#fields.hasErrors('studentCourses')}" th:errors="*{studentCourses}"></div>
+
+  <div>
+    <button type="submit">登録</button>
+  </div>
+</form>
+</body>
+</html>
