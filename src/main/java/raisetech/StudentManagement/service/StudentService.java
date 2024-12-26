@@ -37,10 +37,12 @@ public class StudentService {
 
   public void registerStudentCourse(StudentDetail studentDetail) {
 
+    // ここが怪しいか？
     for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
       studentCourse.setStudentId(studentDetail.getStudent().getStudentId());
       studentCourse.setStartDate(LocalDateTime.now());
       studentCourse.setExpectedEndDate(LocalDateTime.now().plusYears(1));
+      System.out.println(studentDetail.getStudentCourses());
     }
     repository.registerStudentCourses(studentDetail.getStudentCourses());
   }

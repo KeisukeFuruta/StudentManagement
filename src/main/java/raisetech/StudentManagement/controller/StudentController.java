@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller;
 
 import jakarta.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,14 @@ public class StudentController {
     if (service.hasDuplicateCourses(studentDetail)) {
       result.rejectValue("studentCourses", "error.studentCourses",
           "重複したコース名は登録できません");
+
+      // プリントデバック用
+      System.out.println("現在の情報は以下のとおり");
+      System.out.println(studentDetail.getStudent().getName());
+      for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
+        System.out.println(Arrays.asList(studentCourse.getCourseName()));
+      }
+
     }
 
     if (result.hasErrors()) {
