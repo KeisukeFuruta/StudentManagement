@@ -40,8 +40,8 @@ public interface StudentRepository {
   void registerStudent(Student student);
 
   @Insert({
-      "<script>INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date) VALUES "
-          + "<foreach collection='studentCourse' item='course' separator=','>"
+      "<script>INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date) "
+          + "VALUES <foreach collection='studentCourse' item='course' separator=','>"
           + "(#{course.studentId}, #{course.courseName}, #{course.startDate}, #{course.expectedEndDate})</foreach></script>"})
   void registerStudentCourses(@Param("studentCourse") List<StudentCourse> studentCourse);
 
