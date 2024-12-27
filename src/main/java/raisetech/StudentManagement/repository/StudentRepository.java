@@ -43,6 +43,7 @@ public interface StudentRepository {
       "<script>INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date) "
           + "VALUES <foreach collection='studentCourse' item='course' separator=','>"
           + "(#{course.studentId}, #{course.courseName}, #{course.startDate}, #{course.expectedEndDate})</foreach></script>"})
+  @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudentCourses(@Param("studentCourse") List<StudentCourse> studentCourse);
 
 }
