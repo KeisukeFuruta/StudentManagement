@@ -15,4 +15,7 @@ public class Application {
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
   }
+
+  // todo:is_deletedをupdateに追加
+  // todo:is_deletedされたものを受講生一覧に表示させない
 }

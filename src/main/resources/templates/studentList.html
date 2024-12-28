@@ -34,7 +34,7 @@
     <td th:text="${studentDetail.student.gender}">男性</td>
     <td th:text="${studentDetail.student.remark}">特になし</td>
     <td>
-      <input type="checkbox" th:checked="${studentDetail.student.isDeleted}"/>
+      <input type="checkbox" th:checked="${studentDetail.student.deleteFlag}"/>
     </td>
     <td>
       <!-- studentCourses をループで展開 -->

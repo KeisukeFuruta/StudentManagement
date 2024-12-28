@@ -79,6 +79,12 @@
     </select>
   </div>
 
+  <div>
+    <label for="deleteFlag">キャンセル</label>
+    <input type="checkbox" id="deleteFlag" th:field="*{student.deleteFlag}"/>
+  </div>
+
+
   <!-- エラーメッセージを表示 -->
   <div th:if="${#fields.hasErrors('studentCourses')}" th:errors="*{studentCourses}"></div>
 
