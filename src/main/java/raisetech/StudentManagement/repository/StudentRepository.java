@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 
@@ -23,10 +24,15 @@ public interface StudentRepository {
    * @return 全件検索した受講生情報の一覧
    */
   @Select("SELECT * FROM students")
-  List<Student> search();
+  List<Student> searchStudentList();
 
+  /**
+   * 受講生コースを全件検索します。
+   *
+   * @return 全件検索した受講生コース情報の一覧
+   */
   @Select("SELECT * FROM students_courses")
-  List<StudentCourse> searchStudentsCourses();
+  List<StudentCourse> searchStudentsCoursesList();
 
   /**
    * 入力フォームから受け取ったデータをDBに登録します。
@@ -45,5 +51,32 @@ public interface StudentRepository {
           + "(#{course.studentId}, #{course.courseName}, #{course.startDate}, #{course.expectedEndDate})</foreach></script>"})
   @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudentCourses(@Param("studentCourse") List<StudentCourse> studentCourse);
+
+  // 受講生　単一検索
+  @Select("SELECT * FROM students WHERE student_id = #{id}")
+  Student searchStudent(String studentId);
+
+  // 受講生コース　単一検索
+  @Select("SELECT * FROM students_Courses WHERE student_id = #{id}")
+  List<StudentCourse> searchStudentCourses(String studentId);
+
+  /**
+   * 受講生情報の更新されたデータをDBに登録します。
+   *
+   * @param student
+   */
+  @Update(
+      "UPDATE students SET name = #{name}, furigana = #{furigana}, nickname = #{nickname}, "
+          + "email_address = #{emailAddress}, residential_area = #{residentialArea}, age = #{age}, gender = #{gender}, remark = #{remark}"
+          + "WHERE student_id = #{studentId}")
+  void updateStudent(Student student);
+
+  /**
+   * 受講コースの更新されたデータをDBに登録します。
+   *
+   * @param studentCourse
+   */
+  @Update("UPDATE students_courses SET course_name = #{courseName} WHERE course_id = #{courseId}")
+  void updateStudentCourses(StudentCourse studentCourse);
 
 }
