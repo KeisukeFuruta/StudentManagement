@@ -36,11 +36,6 @@ public class StudentController {
     List<StudentCourse> studentCourses = service.searchStudentsCourseList();
 
     model.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
-
-    // デバッグ用
-    StudentDetail studentDetail = new StudentDetail();
-    System.out.println(studentDetail.getStudent());
-
     return "studentList";
   }
 
