@@ -11,30 +11,44 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import raisetech.StudentManagement.controller.converter.StudentConverter;
-import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
+/**
+ * 受講生の検索や登録、更新などを行うREST APIを受付けるControllerです。
+ */
 @Validated
 @RestController
 public class StudentController {
 
   private StudentService service;
-  private StudentConverter converter;
 
   @Autowired
-  public StudentController(StudentService service, StudentConverter converter) {
+  public StudentController(StudentService service) {
     this.service = service;
-    this.converter = converter;
   }
 
+  /**
+   * 受講生一覧検索です。
+   * 全件検索を行うので、条件指定は行わないません。
+   *
+   * @return　受講生一覧（全件）
+   */
   @GetMapping("/studentList")
   public List<StudentDetail> getStudentList() {
-    List<Student> students = service.searchStudentList();
-    List<StudentCourse> studentCourses = service.searchStudentsCourseList();
-    return converter.convertStudentDetails(students, studentCourses);
+    return service.searchStudentList();
+  }
+
+  /**
+   * 受講生検索です。
+   * IDに紐づく任意の受講生の情報を取得します。
+   *
+   * @param studentId 　受講生ID
+   * @return 受講生単体の情報
+   */
+  @GetMapping("/student/{studentId}")
+  public StudentDetail getStudent(@PathVariable String studentId) {
+    return service.searchStudentDetail(studentId);
   }
 
   // 受講生の新規登録画面です。
@@ -44,6 +58,12 @@ public class StudentController {
     return "registerStudent";
   }
 
+  /**
+   * 受講生新規登録
+   *
+   * @param studentDetail 受講生詳細
+   * @return 登録された受講生詳細
+   */
   // 受講生の新規登録を行います。
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(
@@ -52,11 +72,12 @@ public class StudentController {
     return ResponseEntity.ok(responseStudentDetail);
   }
 
-  @GetMapping("/student/{studentId}")
-  public StudentDetail getStudent(@PathVariable String studentId) {
-    return service.searchStudentDetail(studentId);
-  }
-
+  /**
+   * 受講生更新です。
+   *
+   * @param studentDetail 受講生詳細
+   * @return 成功コメント
+   */
   @PostMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(
       @RequestBody @Valid StudentDetail studentDetail) {

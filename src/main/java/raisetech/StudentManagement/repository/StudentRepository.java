@@ -11,28 +11,44 @@ import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 
 /**
- * 受講生情報を扱うリポジトリ。
- * <p>
- * 全件検索や単一条件での検索、コース情報の検索が行えるクラスです。
+ * 受講生テーブルと受講生コース情報テーブルと紐づくRepositoryです。
  */
 @Mapper
 public interface StudentRepository {
 
   /**
-   * 全件検索します。
+   * 受講生の全件検索を行います。
    *
-   * @return 全件検索した受講生情報の一覧
+   * @return 受講生一覧（全件）
    */
   @Select("SELECT * FROM students WHERE delete_flag = false")
-  List<Student> searchStudentList();
+  List<Student> search();
 
   /**
-   * 受講生コースを全件検索します。
+   * 受講生の検索を行います。
    *
-   * @return 全件検索した受講生コース情報の一覧
+   * @param studentId 受講生ID
+   * @return 受講生
+   */
+  @Select("SELECT * FROM students WHERE student_id = #{id}")
+  Student searchStudent(String studentId);
+
+  /**
+   * 受講生のコース情報の全件検索を行います。
+   *
+   * @return 受講生のコース情報（全件）
    */
   @Select("SELECT * FROM students_courses")
   List<StudentCourse> searchStudentsCoursesList();
+
+  /**
+   * 受講生IDに紐づく受講生コース情報を検索します。
+   *
+   * @param studentId 受講生ID
+   * @return 受講生IDに紐づく受講生コース情報
+   */
+  @Select("SELECT * FROM students_Courses WHERE student_id = #{id}")
+  List<StudentCourse> searchStudentCourses(String studentId);
 
   /**
    * 入力フォームから受け取ったデータをDBに登録します。
@@ -51,14 +67,6 @@ public interface StudentRepository {
           + "(#{course.studentId}, #{course.courseName}, #{course.startDate}, #{course.expectedEndDate})</foreach></script>"})
   @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudentCourses(@Param("studentCourse") List<StudentCourse> studentCourse);
-
-  // 受講生　単一検索
-  @Select("SELECT * FROM students WHERE student_id = #{id}")
-  Student searchStudent(String studentId);
-
-  // 受講生コース　単一検索
-  @Select("SELECT * FROM students_Courses WHERE student_id = #{id}")
-  List<StudentCourse> searchStudentCourses(String studentId);
 
   /**
    * 受講生情報の更新されたデータをDBに登録します。
