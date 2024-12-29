@@ -46,9 +46,10 @@ public class StudentController {
 
   // 受講生の新規登録を行います。
   @PostMapping("/registerStudent")
-  public ResponseEntity<String> registerStudent(@RequestBody @Valid StudentDetail studentDetail) {
-    service.registerStudent(studentDetail);
-    return ResponseEntity.ok("登録処理が成功しました。");
+  public ResponseEntity<StudentDetail> registerStudent(
+      @RequestBody @Valid StudentDetail studentDetail) {
+    StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
+    return ResponseEntity.ok(responseStudentDetail);
   }
 
   @GetMapping("/student/{studentId}")

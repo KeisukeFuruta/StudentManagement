@@ -34,7 +34,7 @@ public class StudentService {
 
   // 受講生登録を行います
   @Transactional
-  public void registerStudent(StudentDetail studentDetail) {
+  public StudentDetail registerStudent(StudentDetail studentDetail) {
     repository.registerStudent(studentDetail.getStudent());
     for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
       studentCourse.setStudentId(studentDetail.getStudent().getStudentId());
@@ -42,6 +42,7 @@ public class StudentService {
       studentCourse.setExpectedEndDate(LocalDateTime.now().plusYears(1));
       repository.registerStudentCourses(studentDetail.getStudentCourses());
     }
+    return studentDetail;
   }
 
   // コース情報の重複チェックを行うメソッドです。
