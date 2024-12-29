@@ -36,18 +36,12 @@ public class StudentService {
   @Transactional
   public void registerStudent(StudentDetail studentDetail) {
     repository.registerStudent(studentDetail.getStudent());
-  }
-
-  // 受講コース情報の登録を行います
-  @Transactional
-  public void registerStudentCourse(StudentDetail studentDetail) {
-
     for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
       studentCourse.setStudentId(studentDetail.getStudent().getStudentId());
       studentCourse.setStartDate(LocalDateTime.now());
       studentCourse.setExpectedEndDate(LocalDateTime.now().plusYears(1));
+      repository.registerStudentCourses(studentDetail.getStudentCourses());
     }
-    repository.registerStudentCourses(studentDetail.getStudentCourses());
   }
 
   // コース情報の重複チェックを行うメソッドです。

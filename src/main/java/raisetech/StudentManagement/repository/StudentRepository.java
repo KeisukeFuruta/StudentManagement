@@ -40,7 +40,7 @@ public interface StudentRepository {
    * @param student 登録する受講生のデータを格納したオブジェクト
    */
   @Insert(
-      "INSERT INTO students (name,furigana,nickname,email_address,residential_area,age,gender,remark,is_deleted)"
+      "INSERT INTO students (name,furigana,nickname,email_address,residential_area,age,gender,remark,delete_flag)"
           + "VALUES (#{name}, #{furigana}, #{nickname}, #{emailAddress}, #{residentialArea}, #{age}, #{gender}, #{remark}, false)")
   @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudent(Student student);
