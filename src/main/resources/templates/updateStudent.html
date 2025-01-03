@@ -79,6 +79,12 @@
     </select>
   </div>
 
+  <div>
+    <label for="isDeleted">キャンセル</label>
+    <input type="checkbox" id="isDeleted" th:field="*{student.deleted}"/>
+  </div>
+
+
   <!-- エラーメッセージを表示 -->
   <div th:if="${#fields.hasErrors('studentCourses')}" th:errors="*{studentCourses}"></div>
 
