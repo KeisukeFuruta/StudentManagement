@@ -4,7 +4,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.data.Student;
@@ -61,12 +60,11 @@ public interface StudentRepository {
   @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudent(Student student);
 
-  @Insert({
-      "<script>INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date) "
-          + "VALUES <foreach collection='studentCourse' item='course' separator=','>"
-          + "(#{course.studentId}, #{course.courseName}, #{course.startDate}, #{course.expectedEndDate})</foreach></script>"})
-  @Options(useGeneratedKeys = true, keyProperty = "studentId")
-  void registerStudentCourses(@Param("studentCourse") List<StudentCourse> studentCourse);
+  @Insert(
+      "INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date) "
+          + "VALUES(#{studentId}, #{courseName}, #{startDate}, #{expectedEndDate})")
+  @Options(useGeneratedKeys = true, keyProperty = "courseId")
+  void registerStudentCourses(StudentCourse studentCourse);
 
   /**
    * 受講生情報の更新されたデータをDBに登録します。

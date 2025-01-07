@@ -63,11 +63,11 @@ public class StudentService {
   @Transactional
   public StudentDetail registerStudent(StudentDetail studentDetail) {
     repository.registerStudent(studentDetail.getStudent());
-    for (StudentCourse studentCourse : studentDetail.getStudentCourses()) {
-      studentCourse.setStudentId(studentDetail.getStudent().getStudentId());
-      studentCourse.setStartDate(LocalDateTime.now());
-      studentCourse.setExpectedEndDate(LocalDateTime.now().plusYears(1));
-      repository.registerStudentCourses(studentDetail.getStudentCourses());
+    for (StudentCourse studentsCourse : studentDetail.getStudentCourses()) {
+      studentsCourse.setStudentId(studentDetail.getStudent().getStudentId());
+      studentsCourse.setStartDate(LocalDateTime.now());
+      studentsCourse.setExpectedEndDate(LocalDateTime.now().plusYears(1));
+      repository.registerStudentCourses(studentsCourse);
     }
     return studentDetail;
   }
