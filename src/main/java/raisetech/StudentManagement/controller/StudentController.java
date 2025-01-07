@@ -74,6 +74,12 @@ public class StudentController {
     return "updateStudent";
   }
 
+  /**
+   * 受講生情報更新です。
+   *
+   * @param studentDetail 受講生詳細
+   * @return 成功コメント
+   */
   @PostMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(
       @RequestBody @Valid StudentDetail studentDetail) {

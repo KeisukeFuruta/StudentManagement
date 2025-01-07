@@ -23,7 +23,7 @@ public interface StudentRepository {
    *
    * @return 全件検索した受講生情報の一覧
    */
-  @Select("SELECT * FROM students WHERE delete_flag = false")
+  @Select("SELECT * FROM students WHERE is_deleted = false")
   List<Student> searchStudentList();
 
   /**
@@ -40,7 +40,7 @@ public interface StudentRepository {
    * @param student 登録する受講生のデータを格納したオブジェクト
    */
   @Insert(
-      "INSERT INTO students (name,furigana,nickname,email_address,residential_area,age,gender,remark,is_deleted)"
+      "INSERT INTO students (name, furigana, nickname, email_address, residential_area, age, gender, remark, is_deleted)"
           + "VALUES (#{name}, #{furigana}, #{nickname}, #{emailAddress}, #{residentialArea}, #{age}, #{gender}, #{remark}, false)")
   @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudent(Student student);
@@ -67,7 +67,7 @@ public interface StudentRepository {
    */
   @Update(
       "UPDATE students SET name = #{name}, furigana = #{furigana}, nickname = #{nickname}, "
-          + "email_address = #{emailAddress}, residential_area = #{residentialArea}, age = #{age}, gender = #{gender}, remark = #{remark}, delete_flag = #{deleteFlag} "
+          + "email_address = #{emailAddress}, residential_area = #{residentialArea}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} "
           + "WHERE student_id = #{studentId}")
   void updateStudent(Student student);
 
