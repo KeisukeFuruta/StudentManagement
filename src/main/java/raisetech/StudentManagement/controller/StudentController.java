@@ -32,8 +32,8 @@ public class StudentController {
     this.converter = converter;
   }
 
-  @GetMapping("/studentList")
-  public List<StudentDetail> getStudentList() {
+  @GetMapping("/students")
+  public List<StudentDetail> getStudent() {
     List<Student> students = service.searchStudentList();
     List<StudentCourse> studentCourses = service.searchStudentsCourseList();
     return converter.convertStudentDetails(students, studentCourses);
