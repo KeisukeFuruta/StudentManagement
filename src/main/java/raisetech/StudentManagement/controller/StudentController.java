@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,20 +50,12 @@ public class StudentController {
     return service.searchStudentDetail(studentId);
   }
 
-  // 受講生の新規登録画面です。
-  @GetMapping("/newStudent")
-  public String newStudent(Model model) {
-    model.addAttribute("studentDetail", new StudentDetail());
-    return "registerStudent";
-  }
-
   /**
    * 受講生新規登録
    *
    * @param studentDetail 受講生詳細
    * @return 登録された受講生詳細
    */
-  // 受講生の新規登録を行います。
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail) {

@@ -72,16 +72,12 @@ public class StudentService {
     return studentDetail;
   }
 
-  //エラーチェック
-  public boolean hasDuplicateCourses(StudentDetail studentDetail) {
-    List<String> courseNames = studentDetail.getStudentCourses().stream()
-        .map(StudentCourse::getCourseName)
-        .toList();
-
-    Set<String> uniqueCourses = new HashSet<>(courseNames);
-    return uniqueCourses.size() != courseNames.size();
-  }
-
+  /**
+   * 受講生更新です。
+   * 受講生情報と受講生コース情報を更新します。
+   *
+   * @param studentDetail 受講生詳細
+   */
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
 
@@ -90,5 +86,15 @@ public class StudentService {
       studentCourse.setStudentId(studentDetail.getStudent().getStudentId());
       repository.updateStudentCourses(studentCourse);
     }
+  }
+
+  //エラーチェック
+  public boolean hasDuplicateCourses(StudentDetail studentDetail) {
+    List<String> courseNames = studentDetail.getStudentCourses().stream()
+        .map(StudentCourse::getCourseName)
+        .toList();
+
+    Set<String> uniqueCourses = new HashSet<>(courseNames);
+    return uniqueCourses.size() != courseNames.size();
   }
 }
