@@ -46,7 +46,7 @@ public class StudentController {
    * @param studentId 　受講生ID
    * @return 受講生単体の情報
    */
-  @GetMapping("/student/{studentId}")
+  @GetMapping("/students/{studentId}")
   public StudentDetail getStudent(@PathVariable String studentId) {
     return service.searchStudentDetail(studentId);
   }
@@ -57,7 +57,7 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 登録された受講生詳細
    */
-  @PostMapping("/student")
+  @PostMapping("/students")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
     StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
@@ -70,7 +70,7 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 成功コメント
    */
-  @PutMapping("/student")
+  @PutMapping("/students")
   public ResponseEntity<String> updateStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
