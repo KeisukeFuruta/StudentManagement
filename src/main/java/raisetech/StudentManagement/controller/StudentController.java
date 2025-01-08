@@ -3,16 +3,18 @@ package raisetech.StudentManagement.controller;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -47,9 +49,9 @@ public class StudentController {
   }
 
   // 受講生の新規登録を行います。
-  @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute @Valid StudentDetail studentDetail,
-      BindingResult result, Model model) {
+  @PostMapping("/student")
+  public ResponseEntity<StudentDetail> registerStudent(
+      @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
     // 重複チェック
     if (service.hasDuplicateCourses(studentDetail)) {
       result.rejectValue("studentCourses", "error.studentCourses",
@@ -57,21 +59,18 @@ public class StudentController {
     }
     // 入力エラーチェック
     if (result.hasErrors()) {
-      result.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
-      return "registerStudent";
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "入力エラーがあります。もう一度やり直してください。");
     }
-
     service.registerStudent(studentDetail);
     service.registerStudentCourse(studentDetail);
 
-    return "redirect:/studentList";
+    return ResponseEntity.ok(studentDetail);
   }
 
   @GetMapping("/student/{studentId}")
-  public String getStudent(@PathVariable String studentId, Model model) {
-    StudentDetail studentDetail = service.searchStudentDetail(studentId);
-    model.addAttribute("studentDetail", studentDetail);
-    return "updateStudent";
+  public StudentDetail getStudent(@PathVariable String studentId) {
+    return service.searchStudentDetail(studentId);
   }
 
   /**
@@ -80,7 +79,7 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 成功コメント
    */
-  @PostMapping("/updateStudent")
+  @PutMapping("/student")
   public ResponseEntity<String> updateStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
