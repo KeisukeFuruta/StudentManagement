@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.data.Student;
+import raisetech.StudentManagement.data.StudentCourse;
+
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -40,6 +45,7 @@ public class StudentController {
   @GetMapping("/students")
   public List<StudentDetail> getStudentList() {
     return service.searchStudentList();
+
   }
 
   /**
@@ -54,12 +60,14 @@ public class StudentController {
     return service.searchStudentDetail(studentId);
   }
 
+
   /**
    * 受講生の登録を行います。
    *
    * @param studentDetail 受講生詳細
    * @return 登録された受講生詳細
    */
+
   @PostMapping("/students")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
@@ -76,7 +84,6 @@ public class StudentController {
 
   /**
    * 受講生更新です。
-   *
    * @param studentDetail 受講生詳細
    * @return 成功コメント
    */

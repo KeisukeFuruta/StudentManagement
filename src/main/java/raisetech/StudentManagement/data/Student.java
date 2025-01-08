@@ -20,6 +20,7 @@ public class Student {
 
   @NotNull
   private String furigana;
+
   private String nickname;
 
   @Email

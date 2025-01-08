@@ -55,11 +55,12 @@ public interface StudentRepository {
    * @param student 登録する受講生のデータを格納したオブジェクト
    */
   @Insert(
-      "INSERT INTO students (name,furigana,nickname,email_address,residential_area,age,gender,remark,is_deleted)"
+      "INSERT INTO students (name, furigana, nickname, email_address, residential_area, age, gender, remark, is_deleted)"
           + "VALUES (#{name}, #{furigana}, #{nickname}, #{emailAddress}, #{residentialArea}, #{age}, #{gender}, #{remark}, false)")
   @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudent(Student student);
 
+  
   @Insert(
       "INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date) "
           + "VALUES(#{studentId}, #{courseName}, #{startDate}, #{expectedEndDate})")
