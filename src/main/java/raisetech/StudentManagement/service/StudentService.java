@@ -3,10 +3,10 @@ package raisetech.StudentManagement.service;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -88,13 +88,23 @@ public class StudentService {
     }
   }
 
-  //エラーチェック
-  public boolean hasDuplicateCourses(StudentDetail studentDetail) {
-    List<String> courseNames = studentDetail.getStudentCourses().stream()
+  /**
+   * コース名の重複登録を防ぐバリデーション処理
+   *
+   * @param studentDetail 受講生詳細
+   * @param result        コメントを返します
+   */
+  public void extracted(StudentDetail studentDetail, BindingResult result) {
+    // コース名のリストを取得
+    List<String> courseNames = studentDetail.getStudentCourses()
+        .stream()
         .map(StudentCourse::getCourseName)
         .toList();
 
-    Set<String> uniqueCourses = new HashSet<>(courseNames);
-    return uniqueCourses.size() != courseNames.size();
+    // コース名重複チェック
+    if (courseNames.size() != new HashSet<>(courseNames).size()) {
+      result.rejectValue("studentCourses", "error.studentCourses",
+          "重複したコース名は登録できません");
+    }
   }
 }

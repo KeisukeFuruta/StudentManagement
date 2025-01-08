@@ -3,7 +3,9 @@ package raisetech.StudentManagement.controller;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -59,7 +62,14 @@ public class StudentController {
    */
   @PostMapping("/students")
   public ResponseEntity<StudentDetail> registerStudent(
-      @RequestBody @Valid StudentDetail studentDetail) {
+      @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
+    // コース名重複チェック
+    service.extracted(studentDetail, result);
+    // 入力エラーチェック
+    if (result.hasErrors()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          result.getFieldError().getDefaultMessage());
+    }
     StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
     return ResponseEntity.ok(responseStudentDetail);
   }
