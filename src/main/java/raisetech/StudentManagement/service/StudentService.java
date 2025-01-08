@@ -7,14 +7,12 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 @Service
-@Validated
 public class StudentService {
 
   private StudentRepository repository;
