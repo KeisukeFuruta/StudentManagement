@@ -52,7 +52,7 @@ public class StudentController {
   @PostMapping("/student")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
-    // 重複チェック
+    // コース名重複チェック
     if (service.hasDuplicateCourses(studentDetail)) {
       result.rejectValue("studentCourses", "error.studentCourses",
           "重複したコース名は登録できません");
