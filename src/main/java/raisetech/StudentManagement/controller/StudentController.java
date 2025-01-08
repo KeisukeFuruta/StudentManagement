@@ -49,7 +49,7 @@ public class StudentController {
   }
 
   // 受講生の新規登録を行います。
-  @PostMapping("/student")
+  @PostMapping("/students")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
     // コース名重複チェック
@@ -68,7 +68,7 @@ public class StudentController {
     return ResponseEntity.ok(studentDetail);
   }
 
-  @GetMapping("/student/{studentId}")
+  @GetMapping("/students/{studentId}")
   public StudentDetail getStudent(@PathVariable String studentId) {
     return service.searchStudentDetail(studentId);
   }
@@ -79,7 +79,7 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 成功コメント
    */
-  @PutMapping("/student")
+  @PutMapping("/students")
   public ResponseEntity<String> updateStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
