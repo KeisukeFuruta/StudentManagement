@@ -39,6 +39,9 @@ public class StudentController {
     List<Student> students = service.searchStudentList();
     List<StudentCourse> studentCourses = service.searchStudentsCourseList();
     return converter.convertStudentDetails(students, studentCourses);
+
+    model.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
+    return "studentList";
   }
 
   // 受講生の新規登録画面です。
