@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -51,12 +52,12 @@ public class StudentController {
   }
 
   /**
-   * 受講生新規登録
+   * 受講生の登録を行います。
    *
    * @param studentDetail 受講生詳細
    * @return 登録された受講生詳細
    */
-  @PostMapping("/registerStudent")
+  @PostMapping("/student")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
     StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
@@ -69,7 +70,7 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 成功コメント
    */
-  @PostMapping("/updateStudent")
+  @PutMapping("/student")
   public ResponseEntity<String> updateStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
