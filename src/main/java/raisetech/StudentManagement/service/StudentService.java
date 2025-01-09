@@ -94,7 +94,7 @@ public class StudentService {
    * @param studentDetail 受講生詳細
    * @param result        コメントを返します
    */
-  public void extracted(StudentDetail studentDetail, BindingResult result) {
+  public void validateStudentDetail(StudentDetail studentDetail, BindingResult result) {
     // コース名のリストを取得
     List<String> courseNames = studentDetail.getStudentCourses()
         .stream()

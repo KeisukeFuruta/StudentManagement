@@ -14,11 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import raisetech.StudentManagement.controller.converter.StudentConverter;
-import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentCourse;
-
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -55,8 +50,8 @@ public class StudentController {
    * @param studentId 　受講生ID
    * @return 受講生単体の情報
    */
-  @GetMapping("/students/{studentId}")
-  public StudentDetail getStudent(@PathVariable String studentId) {
+  @GetMapping("/students/{id}")
+  public StudentDetail getStudent(@PathVariable("id") String studentId) {
     return service.searchStudentDetail(studentId);
   }
 
@@ -72,7 +67,7 @@ public class StudentController {
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
     // コース名重複チェック
-    service.extracted(studentDetail, result);
+    service.validateStudentDetail(studentDetail, result);
     // 入力エラーチェック
     if (result.hasErrors()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -84,6 +79,7 @@ public class StudentController {
 
   /**
    * 受講生更新です。
+   *
    * @param studentDetail 受講生詳細
    * @return 成功コメント
    */
