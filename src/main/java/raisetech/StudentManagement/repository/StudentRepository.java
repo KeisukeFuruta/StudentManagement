@@ -30,6 +30,8 @@ public interface StudentRepository {
    */
   Student searchStudent(String studentId);
 
+  // todo:課題　以下のものを全てXMLに移動する。@INSERTや@Updateは調べたら出てくる。
+
   /**
    * 受講生のコース情報の全件検索を行います。
    *

@@ -2,6 +2,7 @@ package raisetech.StudentManagement.data;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,11 +27,12 @@ public class Student {
 
   private String nickname;
 
-  @Email
+  @Email(message = "無効なメールアドレスです")
   private String emailAddress;
 
   private String residentialArea;
   private int age;
+  @Pattern(regexp = "男性|女性|回答しない", message = "性別は「男性」「女性」「回答しない」のいずれかでなければなりません")
   private String gender;
   private String remark;
   private boolean isDeleted;
