@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,66 +14,71 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import raisetech.StudentManagement.controller.converter.StudentConverter;
-import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
+/**
+ * 受講生の検索や登録、更新などを行うREST APIを受付けるControllerです。
+ */
 @Validated
 @RestController
 public class StudentController {
 
   private StudentService service;
-  private StudentConverter converter;
 
   @Autowired
-  public StudentController(StudentService service, StudentConverter converter) {
+  public StudentController(StudentService service) {
     this.service = service;
-    this.converter = converter;
   }
 
+  /**
+   * 受講生一覧検索です。
+   * 全件検索を行うので、条件指定は行わないません。
+   *
+   * @return　受講生一覧（全件）
+   */
   @GetMapping("/students")
-  public List<StudentDetail> getStudent() {
-    List<Student> students = service.searchStudentList();
-    List<StudentCourse> studentCourses = service.searchStudentsCourseList();
-    return converter.convertStudentDetails(students, studentCourses);
+  public List<StudentDetail> getStudentList() {
+    return service.searchStudentList();
+
   }
 
-  // 受講生の新規登録画面です。
-  @GetMapping("/newStudent")
-  public String newStudent(Model model) {
-    model.addAttribute("studentDetail", new StudentDetail());
-    return "registerStudent";
+  /**
+   * 受講生検索です。
+   * IDに紐づく任意の受講生の情報を取得します。
+   *
+   * @param studentId 　受講生ID
+   * @return 受講生単体の情報
+   */
+  @GetMapping("/students/{id}")
+  public StudentDetail getStudent(@PathVariable("id") String studentId) {
+    return service.searchStudentDetail(studentId);
   }
 
-  // 受講生の新規登録を行います。
+
+  /**
+   * 受講生の登録を行います。
+   *
+   * @param studentDetail 受講生詳細
+   * @return 登録された受講生詳細
+   */
+
   @PostMapping("/students")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
     // コース名重複チェック
-    if (service.hasDuplicateCourses(studentDetail)) {
-      result.rejectValue("studentCourses", "error.studentCourses",
-          "重複したコース名は登録できません");
-    }
+    service.validateStudentDetail(studentDetail, result);
     // 入力エラーチェック
     if (result.hasErrors()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "入力エラーがあります。もう一度やり直してください。");
+          result.getFieldError().getDefaultMessage());
     }
-    service.registerStudent(studentDetail);
-    service.registerStudentCourse(studentDetail);
-
-    return ResponseEntity.ok(studentDetail);
-  }
-
-  @GetMapping("/students/{studentId}")
-  public StudentDetail getStudent(@PathVariable String studentId) {
-    return service.searchStudentDetail(studentId);
+    StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
+    return ResponseEntity.ok(responseStudentDetail);
   }
 
   /**
-   * 受講生情報更新です。
+   * 受講生更新です。
    *
    * @param studentDetail 受講生詳細
    * @return 成功コメント
