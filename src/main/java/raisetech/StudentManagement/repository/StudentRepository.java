@@ -38,7 +38,7 @@ public interface StudentRepository {
    * @return 受講生のコース情報（全件）
    */
   @Select("SELECT * FROM students_courses")
-  List<StudentCourse> searchStudentsCoursesList();
+  List<StudentCourse> searchStudentCourseList();
 
   /**
    * 受講生IDに紐づく受講生コース情報を検索します。
@@ -47,10 +47,11 @@ public interface StudentRepository {
    * @return 受講生IDに紐づく受講生コース情報
    */
   @Select("SELECT * FROM students_Courses WHERE student_id = #{id}")
-  List<StudentCourse> searchStudentCourses(String studentId);
+  List<StudentCourse> searchStudentCourse(String studentId);
 
   /**
    * 入力フォームから受け取ったデータをDBに登録します。
+   * studentIdに関しては、自動採番を行います。
    *
    * @param student 登録する受講生のデータを格納したオブジェクト
    */
@@ -60,17 +61,22 @@ public interface StudentRepository {
   @Options(useGeneratedKeys = true, keyProperty = "studentId")
   void registerStudent(Student student);
 
-  
+  /**
+   * 受講生コース情報を新規登録します。
+   * courseIdに関しては、自動裁判を行います。
+   *
+   * @param studentCourse 受講生コース情報
+   */
   @Insert(
       "INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date) "
           + "VALUES(#{studentId}, #{courseName}, #{startDate}, #{expectedEndDate})")
   @Options(useGeneratedKeys = true, keyProperty = "courseId")
-  void registerStudentCourses(StudentCourse studentCourse);
+  void registerStudentCourse(StudentCourse studentCourse);
 
   /**
-   * 受講生情報の更新されたデータをDBに登録します。
+   * 受講生を更新します。
    *
-   * @param student
+   * @param student 受講生
    */
   @Update(
       "UPDATE students SET name = #{name}, furigana = #{furigana}, nickname = #{nickname}, "
@@ -79,11 +85,11 @@ public interface StudentRepository {
   void updateStudent(Student student);
 
   /**
-   * 受講コースの更新されたデータをDBに登録します。
+   * 受講コース情報のコース名を更新します。
    *
-   * @param studentCourse
+   * @param studentCourse 受講生コース情報
    */
   @Update("UPDATE students_courses SET course_name = #{courseName} WHERE course_id = #{courseId}")
-  void updateStudentCourses(StudentCourse studentCourse);
+  void updateStudentCourse(StudentCourse studentCourse);
 
 }

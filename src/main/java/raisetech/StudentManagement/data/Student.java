@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * 受講生の情報を扱うオブジェクトです。
+ */
 @Getter
 @Setter
 @Validated
