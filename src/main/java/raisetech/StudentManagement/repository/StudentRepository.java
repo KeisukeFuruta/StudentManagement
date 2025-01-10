@@ -20,7 +20,6 @@ public interface StudentRepository {
    *
    * @return 受講生一覧（全件）
    */
-  @Select("SELECT * FROM students WHERE is_deleted = false")
   List<Student> search();
 
   /**
@@ -29,7 +28,6 @@ public interface StudentRepository {
    * @param studentId 受講生ID
    * @return 受講生
    */
-  @Select("SELECT * FROM students WHERE student_id = #{id}")
   Student searchStudent(String studentId);
 
   /**
