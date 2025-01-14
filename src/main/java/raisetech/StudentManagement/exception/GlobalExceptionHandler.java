@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
  * グローバルエラーをハンドリングするクラスです
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends Exception {
 
   /**
    * ResponseStatusExceptionを処理します。
