@@ -50,6 +50,9 @@ public class StudentService {
    */
   public StudentDetail searchStudentDetail(String studentId) {
     Student student = repository.searchStudent(studentId);
+    if (student == null) {
+      throw new IllegalArgumentException("指定したid: " + studentId);
+    }
     List<StudentCourse> studentCourse = repository.searchStudentCourse(student.getStudentId());
     return new StudentDetail(student, studentCourse);
   }
@@ -118,7 +121,7 @@ public class StudentService {
 
     // コース名重複チェック
     if (courseNames.size() != new HashSet<>(courseNames).size()) {
-      result.rejectValue("studentCourses", "error.studentCourses",
+      result.rejectValue("studentCourseList", "error.studentCourseList",
           "重複したコース名は登録できません");
     }
   }
