@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.exception;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * グローバルエラーをハンドリングするクラスです
  */
+@Schema(description = "グローバルエラーをハンドリングするクラスです。")
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -77,7 +79,7 @@ public class GlobalExceptionHandler {
     Map<String, Object> response = new HashMap<>();
     response.put("timestamp", LocalDateTime.now());
     response.put("status", HttpStatus.BAD_REQUEST.value());
-    response.put("error", "リクエストボディのバリデーションエラー");
+    response.put("error", "入力値が不正です。");
     response.put("errors", errors);
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

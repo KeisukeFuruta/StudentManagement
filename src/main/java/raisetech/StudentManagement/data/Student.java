@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.data;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 /**
  * 受講生の情報を扱うオブジェクトです。
  */
+@Schema(description = "受講生")
 @Getter
 @Setter
 @Validated
@@ -35,7 +37,6 @@ public class Student {
   @NotBlank
   private String residentialArea;
 
-  @NotBlank
   private int age;
 
   @NotBlank

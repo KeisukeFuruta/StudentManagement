@@ -1,5 +1,10 @@
 package raisetech.StudentManagement.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.exception.GlobalExceptionHandler;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -39,15 +45,9 @@ public class StudentController {
    *
    * @return　受講生詳細一覧（全件）
    */
+  @Operation(summary = "一覧検索", description = "受講生の一覧を検索します。")
   @GetMapping("/students")
   public List<StudentDetail> getStudentList() {
-    // エラーを投げてみる
-    if (shouldThrowError()) {
-      throw new ResponseStatusException(
-          HttpStatus.INTERNAL_SERVER_ERROR,
-          "意図的なエラーを発生させました"
-      );
-    }
     return service.searchStudentList();
   }
 
@@ -58,6 +58,14 @@ public class StudentController {
    * @param studentId 　受講生ID
    * @return 受講生詳細
    */
+  @Operation(summary = "受講生詳細検索", description = "Dに紐づく任意の受講生の情報を取得します。")
+  @ApiResponses(value =
+      {
+          @ApiResponse(responseCode = "200", description = "成功"),
+          @ApiResponse(responseCode = "400", description = "リクエストされたIDが存在しません。", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class))),
+          @ApiResponse(responseCode = "500", description = "サーバー側でエラーが起きた可能性があります。", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class)))
+      }
+  )
   @GetMapping("/students/{id}")
   public StudentDetail getStudent(
       @PathVariable("id") @Size(min = 1, max = 3) @Pattern(regexp = "^\\d+$") String studentId) {
@@ -71,6 +79,14 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 実行結果
    */
+  @Operation(summary = "受講生登録", description = "受講生詳細の登録を行います。")
+  @ApiResponses(value =
+      {
+          @ApiResponse(responseCode = "200", description = "成功"),
+          @ApiResponse(responseCode = "400", description = "入力値が不正です", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class))),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class)))
+      }
+  )
   @PostMapping("/students")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail, BindingResult result) {
@@ -92,6 +108,14 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 実行結果
    */
+  @Operation(summary = "受講生更新", description = "受講生詳細の更新を行います。キャンセルフラグの更新もここで行います。（論理削除）")
+  @ApiResponses(value =
+      {
+          @ApiResponse(responseCode = "200", description = "更新処理が成功しました。"),
+          @ApiResponse(responseCode = "400", description = "入力値が不正です", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class))),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class)))
+      }
+  )
   @PutMapping("/students")
   public ResponseEntity<String> updateStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
