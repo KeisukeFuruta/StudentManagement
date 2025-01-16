@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import raisetech.StudentManagement.domain.StudentDetail;
-import raisetech.StudentManagement.exception.GlobalExceptionHandler;
+import raisetech.StudentManagement.exception.ErrorResponse;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -58,12 +58,12 @@ public class StudentController {
    * @param studentId 　受講生ID
    * @return 受講生詳細
    */
-  @Operation(summary = "受講生詳細検索", description = "Dに紐づく任意の受講生の情報を取得します。")
+  @Operation(summary = "受講生詳細検索", description = "IDに紐づく任意の受講生の情報を取得します。")
   @ApiResponses(value =
       {
           @ApiResponse(responseCode = "200", description = "成功"),
-          @ApiResponse(responseCode = "400", description = "リクエストされたIDが存在しません。", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class))),
-          @ApiResponse(responseCode = "500", description = "サーバー側でエラーが起きた可能性があります。", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class)))
+          @ApiResponse(responseCode = "400", description = "リクエストされたIDが存在しません。", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+          @ApiResponse(responseCode = "500", description = "サーバー側でエラーが起きた可能性があります。", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
       }
   )
   @GetMapping("/students/{id}")
@@ -83,8 +83,8 @@ public class StudentController {
   @ApiResponses(value =
       {
           @ApiResponse(responseCode = "200", description = "成功"),
-          @ApiResponse(responseCode = "400", description = "入力値が不正です", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class))),
-          @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class)))
+          @ApiResponse(responseCode = "400", description = "入力値が不正です", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
       }
   )
   @PostMapping("/students")
@@ -112,8 +112,8 @@ public class StudentController {
   @ApiResponses(value =
       {
           @ApiResponse(responseCode = "200", description = "更新処理が成功しました。"),
-          @ApiResponse(responseCode = "400", description = "入力値が不正です", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class))),
-          @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = GlobalExceptionHandler.class)))
+          @ApiResponse(responseCode = "400", description = "入力値が不正です", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+          @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
       }
   )
   @PutMapping("/students")
