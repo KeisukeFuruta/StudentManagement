@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,14 @@ public class StudentController {
    */
   @GetMapping("/students")
   public List<StudentDetail> getStudentList() {
+    // エラーを投げてみる
+    if (shouldThrowError()) {
+      throw new ResponseStatusException(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "意図的なエラーを発生させました"
+      );
+    }
     return service.searchStudentList();
-
   }
 
   /**
@@ -52,7 +59,8 @@ public class StudentController {
    * @return 受講生詳細
    */
   @GetMapping("/students/{id}")
-  public StudentDetail getStudent(@PathVariable("id") @Size(min = 1, max = 3) String studentId) {
+  public StudentDetail getStudent(
+      @PathVariable("id") @Size(min = 1, max = 3) @Pattern(regexp = "^\\d+$") String studentId) {
     return service.searchStudentDetail(studentId);
   }
 
@@ -71,7 +79,7 @@ public class StudentController {
     // 入力エラーチェック
     if (result.hasErrors()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          result.getFieldError().getDefaultMessage());
+          "重複したコース名は登録できません");
     }
     StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
     return ResponseEntity.ok(responseStudentDetail);
@@ -89,6 +97,11 @@ public class StudentController {
       @RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました。");
+  }
+
+  // エラーを投げる用のメソッド
+  private boolean shouldThrowError() {
+    return true; // 常にエラーを発生させる
   }
 
 }
