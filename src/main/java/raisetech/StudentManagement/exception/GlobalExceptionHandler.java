@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.exception;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * グローバルエラーをハンドリングするクラスです
  */
+@Schema(description = "グローバルエラーをハンドリングするクラスです。")
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -25,13 +27,18 @@ public class GlobalExceptionHandler {
    * @return エラー情報を含むHTTPレスポンス
    */
   @ExceptionHandler(ResponseStatusException.class)
-  public ResponseEntity<Map<String, Object>> handleResponseStatusException(
+  public ResponseEntity<ErrorResponse> handleResponseStatusException(
       ResponseStatusException ex) {
-    Map<String, Object> response = new HashMap<>();
-    response.put("timestamp", LocalDateTime.now());
-    response.put("status", ex.getStatusCode().value());
-    response.put("error", ex.getReason());
-    response.put("path", ex.getMessage());
+
+    // ErrorResponseを生成
+    ErrorResponse response = new ErrorResponse(
+        LocalDateTime.now().toString(),
+        ex.getStatusCode().value(),
+        ex.getReason(),
+        ex.getMessage(),
+        null
+    );
+
     return new ResponseEntity<>(response, ex.getStatusCode());
   }
 
@@ -42,20 +49,23 @@ public class GlobalExceptionHandler {
    * @return　エラー情報を含むHTTPレスポンス
    */
   @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<Map<String, Object>> handleValidationException(
+  public ResponseEntity<ErrorResponse> handleValidationException(
       ConstraintViolationException ex) {
-    Map<String, Object> response = new HashMap<>();
-    response.put("timestamp", LocalDateTime.now());
-    response.put("status", HttpStatus.BAD_REQUEST.value());
-    response.put("error", "入力値が不正です");
-    response.put("path", "バリデーションエラー");
 
     // バリデーションエラーの詳細を取得
     Map<String, String> errors = new HashMap<>();
     for (ConstraintViolation<?> violationException : ex.getConstraintViolations()) {
       errors.put(violationException.getPropertyPath().toString(), violationException.getMessage());
     }
-    response.put("errors", errors);
+
+    // ErrorResponseを生成
+    ErrorResponse response = new ErrorResponse(
+        LocalDateTime.now().toString(),
+        HttpStatus.BAD_REQUEST.value(),
+        "入力値が不正です。",
+        "リクエストボディのバリデーションエラー",
+        errors
+    );
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
@@ -67,18 +77,23 @@ public class GlobalExceptionHandler {
    * @return バリデーションエラーの詳細を含む HTTP レスポンス
    */
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(
+  public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException ex) {
+
+    // バリデーションエラーの詳細を取得
     Map<String, String> errors = new HashMap<>();
     ex.getBindingResult().getFieldErrors().forEach(error ->
         errors.put(error.getField(), error.getDefaultMessage())
     );
 
-    Map<String, Object> response = new HashMap<>();
-    response.put("timestamp", LocalDateTime.now());
-    response.put("status", HttpStatus.BAD_REQUEST.value());
-    response.put("error", "リクエストボディのバリデーションエラー");
-    response.put("errors", errors);
+    // ErrorResponseを生成
+    ErrorResponse response = new ErrorResponse(
+        LocalDateTime.now().toString(),
+        HttpStatus.BAD_REQUEST.value(),
+        ex.getMessage(),
+        "入力値が不正です。",
+        errors
+    );
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
@@ -90,13 +105,18 @@ public class GlobalExceptionHandler {
    * @return エラーメッセージとHTTPレスポンス
    */
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(
+  public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
       IllegalArgumentException ex) {
-    Map<String, Object> response = new HashMap<>();
-    response.put("timestamp", LocalDateTime.now());
-    response.put("status", HttpStatus.BAD_REQUEST.value());
-    response.put("error", ex.getMessage());
-    response.put("path", "リクエストされたIDが存在しません");
+
+    // ErrorResponseを生成
+    ErrorResponse response = new ErrorResponse(
+        LocalDateTime.now().toString(),
+        HttpStatus.BAD_REQUEST.value(),
+        ex.getMessage(),
+        "リクエストされたIDが存在しません",
+        null
+    );
+
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 }
