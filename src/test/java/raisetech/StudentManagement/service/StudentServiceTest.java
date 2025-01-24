@@ -1,7 +1,11 @@
 package raisetech.StudentManagement.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -66,6 +70,33 @@ class StudentServiceTest {
 
     verify(repository, times(1)).searchStudent(studentId);
     verify(repository, times(1)).searchStudentCourse(studentId);
+  }
+
+  @Test
+  void 受講生単一検索_存在しないstudentIdが入力された場合_異常系IllegalArgumentExceptionがスローされる() {
+    String studentId = "invalidId";
+    when(repository.searchStudent(studentId)).thenReturn(null);
+
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      sut.searchStudentDetail(studentId);
+    });
+    assertEquals("指定したid: " + studentId, exception.getMessage());
+  }
+
+  @Test
+  void 受講生単一検索_存在するstudentIdが入力された場合_正常系StudentDetailが返される() {
+    Student student = mock(Student.class);
+    String studentId = "validId";
+    List<StudentCourse> studentCourse = List.of(mock(StudentCourse.class));
+
+    when(repository.searchStudent(studentId)).thenReturn(student);
+    when(repository.searchStudentCourse(student.getStudentId())).thenReturn(studentCourse);
+
+    StudentDetail result = sut.searchStudentDetail(studentId);
+
+    assertNotNull(result);
+    assertEquals(student, result.getStudent());
+    assertEquals(studentCourse, result.getStudentCourseList());
   }
 
   @Test
@@ -134,10 +165,9 @@ class StudentServiceTest {
     sut.validateStudentDetail(studentDetail, result);
 
     verify(result, times(1)).rejectValue(
-        "studentCourseList",
-        "error.studentCourseList",
-        "重複したコース名は登録できません");
-
+        eq("studentCourseList"),
+        eq("error.studentCourseList"),
+        eq("重複したコース名は登録できません"));
   }
 
 }
