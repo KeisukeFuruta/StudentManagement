@@ -57,8 +57,8 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生単一検索_リポジトリが適切に呼び出せていること() {
-    String studentId = "30";
+  void 受講生詳細検索_リポジトリが適切に呼び出せていること() {
+    String studentId = "testStudentId";
     Student student = new Student();
     student.setStudentId(studentId);
     List<StudentCourse> studentCourse = new ArrayList<>();
@@ -73,7 +73,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生単一検索_存在しないstudentIdが入力された場合_異常系IllegalArgumentExceptionがスローされる() {
+  void 受講生詳細検索_存在しないstudentIdが入力された場合_異常系IllegalArgumentExceptionがスローされる() {
     String studentId = "invalidId";
     when(repository.searchStudent(studentId)).thenReturn(null);
 
@@ -84,9 +84,9 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生単一検索_存在するstudentIdが入力された場合_正常系StudentDetailが返される() {
-    Student student = mock(Student.class);
+  void 受講生詳細検索_存在するstudentIdが入力された場合_正常系StudentDetailが返される() {
     String studentId = "validId";
+    Student student = mock(Student.class);
     List<StudentCourse> studentCourse = List.of(mock(StudentCourse.class));
 
     when(repository.searchStudent(studentId)).thenReturn(student);
@@ -101,10 +101,10 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細の登録_リポジトリが適切に呼び出せてコース情報を登録できていること() {
-    StudentDetail studentDetail = mock(StudentDetail.class);
     Student student = mock(Student.class);
     List<StudentCourse> studentCourseList = List.of(mock(StudentCourse.class),
         mock(StudentCourse.class));
+    StudentDetail studentDetail = mock(StudentDetail.class);
 
     when(studentDetail.getStudent()).thenReturn(student);
     when(studentDetail.getStudentCourseList()).thenReturn(studentCourseList);
@@ -113,15 +113,14 @@ class StudentServiceTest {
 
     verify(repository, times(1)).registerStudent(any(Student.class));
     verify(repository, times(2)).registerStudentCourse(any(StudentCourse.class));
-
   }
 
   @Test
   void 受講生詳細の更新_リポジトリが適切に呼び出せてコース情報を登録できていること() {
-    StudentDetail studentDetail = mock(StudentDetail.class);
     Student student = mock(Student.class);
     List<StudentCourse> studentCourseList = List.of(mock(StudentCourse.class),
         mock(StudentCourse.class));
+    StudentDetail studentDetail = mock(StudentDetail.class);
 
     when(studentDetail.getStudent()).thenReturn(student);
     when(studentDetail.getStudentCourseList()).thenReturn(studentCourseList);
