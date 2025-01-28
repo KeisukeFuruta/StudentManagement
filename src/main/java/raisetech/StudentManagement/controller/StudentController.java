@@ -68,7 +68,9 @@ public class StudentController {
   )
   @GetMapping("/students/{id}")
   public StudentDetail getStudent(
-      @PathVariable("id") @Size(min = 1, max = 3) @Pattern(regexp = "^\\d+$") String studentId) {
+      @PathVariable("id")
+      @Size(min = 1, max = 3, message = "IDは1から3桁の数字で入力してください。")
+      @Pattern(regexp = "^\\d+$", message = "IDは数字のみ入力してください。") String studentId) {
     return service.searchStudentDetail(studentId);
   }
 

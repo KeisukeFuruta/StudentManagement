@@ -31,7 +31,7 @@ public class Student {
   private String nickname;
 
   @NotBlank
-  @Email(message = "無効なメールアドレスです")
+  @Email(message = "無効なメールアドレスです。")
   private String emailAddress;
 
   @NotBlank
@@ -40,7 +40,7 @@ public class Student {
   private int age;
 
   @NotBlank
-  @Pattern(regexp = "男性|女性|回答しない", message = "性別は「男性」「女性」「回答しない」のいずれかでなければなりません")
+  @Pattern(regexp = "男性|女性|回答しない", message = "性別は「男性」「女性」「回答しない」のいずれかでなければなりません。")
   private String gender;
 
   private String remark;
