@@ -113,10 +113,12 @@ public class GlobalExceptionHandler {
         LocalDateTime.now().toString(),
         HttpStatus.BAD_REQUEST.value(),
         ex.getMessage(),
-        "リクエストされたIDが存在しません。",
+        "不正なリクエストが送信されました。",
         null
     );
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
+
+
 }
