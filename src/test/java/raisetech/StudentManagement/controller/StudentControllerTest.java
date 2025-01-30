@@ -110,7 +110,7 @@ class StudentControllerTest {
     mockMvc.perform(get("/students/{id}", studentId))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.error")
+        .andExpect(jsonPath("$.path")
             .value("リクエストされたIDが存在しません。"));
   }
 
@@ -180,7 +180,7 @@ class StudentControllerTest {
             .content(studentJson))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors['student.gender']")
+        .andExpect(jsonPath("$.errors['registerStudent.studentDetail.student.gender']")
             .value("性別は「男性」「女性」「回答しない」のいずれかでなければなりません。"));
 
   }
@@ -212,10 +212,12 @@ class StudentControllerTest {
             .content(studentJson))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors['student.emailAddress']")
+        .andExpect(jsonPath("$.errors['registerStudent.studentDetail.student.emailAddress']")
             .value("無効なメールアドレスです。"));
+
   }
 
+  // todo:コース情報が重複する際のエラーチェックテスト,200番で通ってしまう。
   @Test
   void 異常系_受講生登録時にコース名重複の入力チェックにかかること() throws Exception {
     String studentJson = """
