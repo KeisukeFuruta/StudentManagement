@@ -2,6 +2,7 @@ package raisetech.StudentManagement.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -242,11 +243,16 @@ class StudentControllerTest {
                 ]
         }
         """;
+    doThrow(new IllegalArgumentException("重複したコース名は登録できません"))
+        .when(service)
+        .validateStudentDetail(any());
+
     mockMvc.perform(post("/students")
             .contentType(MediaType.APPLICATION_JSON)
             .content(studentJson))
         .andDo(print())
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.error").value("重複したコース名は登録できません"));
   }
 
   @Test
