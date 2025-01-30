@@ -77,7 +77,8 @@ class StudentServiceTest {
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
       sut.searchStudentDetail(studentId);
     });
-    assertEquals("指定したid: " + studentId, exception.getMessage());
+    assertEquals("リクエストされたIDが存在しません。指定したid: " + studentId,
+        exception.getMessage());
   }
 
   @Test
