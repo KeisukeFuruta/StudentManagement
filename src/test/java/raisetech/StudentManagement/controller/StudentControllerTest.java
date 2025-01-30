@@ -110,7 +110,7 @@ class StudentControllerTest {
     mockMvc.perform(get("/students/{id}", studentId))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.path")
+        .andExpect(jsonPath("$.error")
             .value("リクエストされたIDが存在しません。"));
   }
 
@@ -180,7 +180,7 @@ class StudentControllerTest {
             .content(studentJson))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors['registerStudent.studentDetail.student.gender']")
+        .andExpect(jsonPath("$.errors['student.gender']")
             .value("性別は「男性」「女性」「回答しない」のいずれかでなければなりません。"));
 
   }
@@ -212,7 +212,7 @@ class StudentControllerTest {
             .content(studentJson))
         .andDo(print())
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors['registerStudent.studentDetail.student.emailAddress']")
+        .andExpect(jsonPath("$.errors['student.emailAddress']")
             .value("無効なメールアドレスです。"));
 
   }

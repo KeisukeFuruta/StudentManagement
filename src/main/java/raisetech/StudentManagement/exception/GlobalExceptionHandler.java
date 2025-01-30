@@ -86,11 +86,13 @@ public class GlobalExceptionHandler {
         errors.put(error.getField(), error.getDefaultMessage())
     );
 
+    String errorMessage = "バリデーションエラー";
+
     // ErrorResponseを生成
     ErrorResponse response = new ErrorResponse(
         LocalDateTime.now().toString(),
         HttpStatus.BAD_REQUEST.value(),
-        ex.getMessage(),
+        errorMessage,
         "入力値が不正です。",
         errors
     );
