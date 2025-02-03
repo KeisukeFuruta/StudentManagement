@@ -217,7 +217,6 @@ class StudentControllerTest {
 
   }
 
-  // todo:コース情報が重複する際のエラーチェックテスト,200番で通ってしまう。
   @Test
   void 異常系_受講生登録時にコース名重複の入力チェックにかかること() throws Exception {
     String studentJson = """
@@ -245,7 +244,7 @@ class StudentControllerTest {
         """;
     doThrow(new IllegalArgumentException("重複したコース名は登録できません"))
         .when(service)
-        .validateStudentDetail(any());
+        .validateDuplicateStudentCourse(any());
 
     mockMvc.perform(post("/students")
             .contentType(MediaType.APPLICATION_JSON)

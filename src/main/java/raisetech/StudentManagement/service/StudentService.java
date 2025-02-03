@@ -111,7 +111,7 @@ public class StudentService {
    *
    * @param studentDetail 受講生詳細
    */
-  public void validateStudentDetail(StudentDetail studentDetail) {
+  public void validateDuplicateStudentCourse(StudentDetail studentDetail) {
     // コース名のリストを取得
     List<String> courseNames = studentDetail.getStudentCourseList()
         .stream()

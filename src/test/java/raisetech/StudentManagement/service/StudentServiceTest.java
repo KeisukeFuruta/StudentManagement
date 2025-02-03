@@ -140,7 +140,7 @@ class StudentServiceTest {
     when(studentDetail.getStudentCourseList()).thenReturn(List.of(course1, course2));
 
     assertDoesNotThrow(() -> {
-      sut.validateStudentDetail(studentDetail);
+      sut.validateDuplicateStudentCourse(studentDetail);
     });
   }
 
@@ -155,7 +155,7 @@ class StudentServiceTest {
     when(studentDetail.getStudentCourseList()).thenReturn(List.of(course1, course2));
 
     assertThrows(IllegalArgumentException.class, () -> {
-      sut.validateStudentDetail(studentDetail);
+      sut.validateDuplicateStudentCourse(studentDetail);
     });
   }
 

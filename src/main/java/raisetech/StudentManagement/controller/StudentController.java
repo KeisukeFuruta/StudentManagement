@@ -90,7 +90,7 @@ public class StudentController {
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
     // コース名重複チェック
-    service.validateStudentDetail(studentDetail);
+    service.validateDuplicateStudentCourse(studentDetail);
 
     StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
     return ResponseEntity.ok(responseStudentDetail);
