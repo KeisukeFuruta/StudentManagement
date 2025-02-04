@@ -1,13 +1,11 @@
 package raisetech.StudentManagement.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.validation.BindingResult;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -80,7 +77,8 @@ class StudentServiceTest {
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
       sut.searchStudentDetail(studentId);
     });
-    assertEquals("指定したid: " + studentId, exception.getMessage());
+    assertEquals("リクエストされたIDが存在しません。指定したid: " + studentId,
+        exception.getMessage());
   }
 
   @Test
@@ -141,12 +139,9 @@ class StudentServiceTest {
     StudentDetail studentDetail = mock(StudentDetail.class);
     when(studentDetail.getStudentCourseList()).thenReturn(List.of(course1, course2));
 
-    BindingResult result = mock(BindingResult.class);
-
-    sut.validateStudentDetail(studentDetail, result);
-
-    verify(result, never()).rejectValue(anyString(), anyString(), anyString());
-
+    assertDoesNotThrow(() -> {
+      sut.validateDuplicateStudentCourse(studentDetail);
+    });
   }
 
   @Test
@@ -159,14 +154,9 @@ class StudentServiceTest {
     StudentDetail studentDetail = mock(StudentDetail.class);
     when(studentDetail.getStudentCourseList()).thenReturn(List.of(course1, course2));
 
-    BindingResult result = mock(BindingResult.class);
-
-    sut.validateStudentDetail(studentDetail, result);
-
-    verify(result, times(1)).rejectValue(
-        eq("studentCourseList"),
-        eq("error.studentCourseList"),
-        eq("重複したコース名は登録できません"));
+    assertThrows(IllegalArgumentException.class, () -> {
+      sut.validateDuplicateStudentCourse(studentDetail);
+    });
   }
 
 }

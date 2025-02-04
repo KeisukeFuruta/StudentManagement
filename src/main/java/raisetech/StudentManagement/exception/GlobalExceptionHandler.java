@@ -86,11 +86,13 @@ public class GlobalExceptionHandler {
         errors.put(error.getField(), error.getDefaultMessage())
     );
 
+    String errorMessage = "バリデーションエラー";
+
     // ErrorResponseを生成
     ErrorResponse response = new ErrorResponse(
         LocalDateTime.now().toString(),
         HttpStatus.BAD_REQUEST.value(),
-        ex.getMessage(),
+        errorMessage,
         "入力値が不正です。",
         errors
     );
@@ -99,7 +101,7 @@ public class GlobalExceptionHandler {
   }
 
   /**
-   * 単一検索に存在しないidを入力された際のエラーを処理します。
+   * 単一検索に存在しないidを入力された際のエラー、受講生登録時に重複したコース名を入力された際のエラーを処理します。
    *
    * @param ex 処理対象のIllegalArgumentException
    * @return エラーメッセージとHTTPレスポンス
@@ -113,10 +115,12 @@ public class GlobalExceptionHandler {
         LocalDateTime.now().toString(),
         HttpStatus.BAD_REQUEST.value(),
         ex.getMessage(),
-        "リクエストされたIDが存在しません",
+        "不正なリクエストが送信されました。",
         null
     );
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
+
+
 }

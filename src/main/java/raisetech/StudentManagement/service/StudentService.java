@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -51,7 +50,8 @@ public class StudentService {
   public StudentDetail searchStudentDetail(String studentId) {
     Student student = repository.searchStudent(studentId);
     if (student == null) {
-      throw new IllegalArgumentException("指定したid: " + studentId);
+      throw new IllegalArgumentException(
+          "リクエストされたIDが存在しません。指定したid: " + studentId);
     }
     List<StudentCourse> studentCourse = repository.searchStudentCourse(student.getStudentId());
     return new StudentDetail(student, studentCourse);
@@ -110,9 +110,8 @@ public class StudentService {
    * コース名の重複登録を防ぐバリデーション処理
    *
    * @param studentDetail 受講生詳細
-   * @param result        コメントを返します
    */
-  public void validateStudentDetail(StudentDetail studentDetail, BindingResult result) {
+  public void validateDuplicateStudentCourse(StudentDetail studentDetail) {
     // コース名のリストを取得
     List<String> courseNames = studentDetail.getStudentCourseList()
         .stream()
@@ -121,8 +120,7 @@ public class StudentService {
 
     // コース名重複チェック
     if (courseNames.size() != new HashSet<>(courseNames).size()) {
-      result.rejectValue("studentCourseList", "error.studentCourseList",
-          "重複したコース名は登録できません");
+      throw new IllegalArgumentException("重複したコース名は登録できません");
     }
   }
 }
