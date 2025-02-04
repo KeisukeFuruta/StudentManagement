@@ -21,7 +21,7 @@ public class Student {
 
   private String studentId;
 
-  @Size(min = 1, max = 10, message = "名前は必須です")
+  @Size(min = 1, max = 10, message = "名前は必須です。")
   private String name;
 
   @NotBlank
