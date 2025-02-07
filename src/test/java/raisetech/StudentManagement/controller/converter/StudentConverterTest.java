@@ -44,12 +44,12 @@ class StudentConverterTest {
         studentCourseList);
 
     StudentDetail studentDetail1 = studentDetails.get(0);
-    assertEquals("髙比良くるま", studentDetail1.getStudent().getName());
+    assertEquals(student1, studentDetail1.getStudent());
     assertEquals("Javaコース", studentDetail1.getStudentCourseList().get(0).getCourseName());
     assertEquals("WPコース", studentDetail1.getStudentCourseList().get(1).getCourseName());
 
     StudentDetail studentDetail2 = studentDetails.get(1);
-    assertEquals("松井ケムリ", studentDetail2.getStudent().getName());
+    assertEquals(student2, studentDetail2.getStudent());
     assertEquals("AWSコース", studentDetail2.getStudentCourseList().get(0).getCourseName());
 
   }
@@ -67,12 +67,11 @@ class StudentConverterTest {
         studentCourseList);
 
     StudentDetail studentDetail1 = studentDetails.get(0);
-    assertEquals("髙比良くるま", studentDetail1.getStudent().getName());
+    assertEquals(student1, studentDetail1.getStudent());
     assertTrue(studentDetail1.getStudentCourseList().isEmpty());
 
     StudentDetail studentDetail2 = studentDetails.get(1);
-    assertEquals("松井ケムリ", studentDetail2.getStudent().getName());
+    assertEquals(student2, studentDetail2.getStudent());
     assertTrue(studentDetail1.getStudentCourseList().isEmpty());
-
   }
 }
