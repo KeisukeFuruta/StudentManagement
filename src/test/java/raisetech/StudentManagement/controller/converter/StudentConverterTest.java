@@ -32,26 +32,26 @@ class StudentConverterTest {
   @Test
   void 正常系_受講生に対する受講生コースが正しくマッピングされる() throws Exception {
     List<Student> studentList = Arrays.asList(student1, student2);
-    List<StudentCourse> studentCourseList = List.of(
-        new StudentCourse("1", "1", "Javaコース", LocalDateTime.now(),
-            LocalDateTime.now().plusYears(1)),
-        new StudentCourse("2", "1", "WPコース", LocalDateTime.now(),
-            LocalDateTime.now().plusYears(1)),
-        new StudentCourse("3", "2", "AWSコース", LocalDateTime.now(),
-            LocalDateTime.now().plusYears(1)));
+    StudentCourse studentCourse1 = new StudentCourse("1", "1", "Javaコース", LocalDateTime.now(),
+        LocalDateTime.now().plusYears(1));
+    StudentCourse studentCourse2 = new StudentCourse("2", "1", "WPコース", LocalDateTime.now(),
+        LocalDateTime.now().plusYears(1));
+    StudentCourse studentCourse3 = new StudentCourse("3", "2", "AWSコース", LocalDateTime.now(),
+        LocalDateTime.now().plusYears(1));
+    List<StudentCourse> studentCourseList = Arrays.asList(studentCourse1, studentCourse2,
+        studentCourse3);
 
     List<StudentDetail> studentDetails = sut.convertStudentDetails(studentList,
         studentCourseList);
 
     StudentDetail studentDetail1 = studentDetails.get(0);
     assertEquals(student1, studentDetail1.getStudent());
-    assertEquals("Javaコース", studentDetail1.getStudentCourseList().get(0).getCourseName());
-    assertEquals("WPコース", studentDetail1.getStudentCourseList().get(1).getCourseName());
+    assertEquals(studentCourse1, studentDetail1.getStudentCourseList().get(0));
+    assertEquals(studentCourse2, studentDetail1.getStudentCourseList().get(1));
 
     StudentDetail studentDetail2 = studentDetails.get(1);
     assertEquals(student2, studentDetail2.getStudent());
-    assertEquals("AWSコース", studentDetail2.getStudentCourseList().get(0).getCourseName());
-
+    assertEquals(studentCourse3, studentDetail2.getStudentCourseList().get(0));
   }
 
   @Test
