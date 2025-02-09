@@ -2,7 +2,6 @@ package raisetech.StudentManagement.controller.converter;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -41,17 +40,16 @@ class StudentConverterTest {
     List<StudentCourse> studentCourseList = Arrays.asList(studentCourse1, studentCourse2,
         studentCourse3);
 
+    // actual（実際の値）をstudentDetailsに格納
     List<StudentDetail> studentDetails = sut.convertStudentDetails(studentList,
         studentCourseList);
 
+    // expected（期待値）を準備
     StudentDetail studentDetail1 = studentDetails.get(0);
-    assertEquals(student1, studentDetail1.getStudent());
-    assertEquals(studentCourse1, studentDetail1.getStudentCourseList().get(0));
-    assertEquals(studentCourse2, studentDetail1.getStudentCourseList().get(1));
-
     StudentDetail studentDetail2 = studentDetails.get(1);
-    assertEquals(student2, studentDetail2.getStudent());
-    assertEquals(studentCourse3, studentDetail2.getStudentCourseList().get(0));
+    List<StudentDetail> expected = List.of(studentDetail1, studentDetail2);
+
+    assertEquals(expected, studentDetails);
   }
 
   @Test
@@ -66,12 +64,9 @@ class StudentConverterTest {
     List<StudentDetail> studentDetails = sut.convertStudentDetails(studentList,
         studentCourseList);
 
-    StudentDetail studentDetail1 = studentDetails.get(0);
-    assertEquals(student1, studentDetail1.getStudent());
-    assertTrue(studentDetail1.getStudentCourseList().isEmpty());
+    List<StudentDetail> expected = List.of(studentDetails.get(0), studentDetails.get(1));
 
-    StudentDetail studentDetail2 = studentDetails.get(1);
-    assertEquals(student2, studentDetail2.getStudent());
-    assertTrue(studentDetail1.getStudentCourseList().isEmpty());
+    assertEquals(expected, studentDetails);
+
   }
 }
