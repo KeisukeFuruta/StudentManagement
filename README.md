@@ -1,30 +1,42 @@
-## StudentManagement
-
+# StudentManagement
 Javaコースで作成中の受講生管理システムです。
+現在も課題を進めている最中ですので、随時修正が加えられます。
+都度READMEを変更できているわけではありません、ご容赦ください。
 
-課題28：
-新規受講生の登録機能の実装
+## 概要
+このプロジェクトはプログラミングについて教えるスクールが受講生の情報を保持・分析するための管理システムです。
 
-<img width="315" alt="スクリーンショット 2024-12-20 10 14 29"
-src="https://github.com/user-attachment
-s/assets/b56cba43-b482-46d9-bd5e-6d93cc0c9bbb" />
-
-登録前の受講生一覧 ※studentIdの7〜16まで消えているが、検証のためSQLで追加していたデータを削除したため
-
-<img width="916" alt="スクリーンショット 2024-12-20 10 15 42" src="https://github.com/user-attachments/assets/640e460c-109b-4b7a-80d6-57d9268da16e" />
+## 作成背景
 
 
-登録後の受講生一覧
-与えたデータは一枚目の画像の通り
+## 主な使用技術
+### バックエンド
+ ![Java](https://img.shields.io/badge/Java-21-orange)
+ ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.5-green)
+### フロントエンド
+未実装
 
-<img width="291" alt="スクリーンショット 2024-12-20 10 19 35" src="https://github.com/user-attachments/assets/73ea0225-2365-46e8-b5e1-86505c2e7dc1" />
-<img width="927" alt="スクリーンショット 2024-12-20 10 19 18" src="https://github.com/user-attachments/assets/3cc730d5-2886-44ea-99f2-98ed6d655300" />
+### インフラ
+未実装
 
-上記に追加して、受講コースを登録する機能を追加。
+### 使用ツール
+ ![MyBatis](https://img.shields.io/badge/MyBatis-orange)
+ ![JUnit5](https://img.shields.io/badge/JUnit5-green)
+ ![Postman](https://img.shields.io/badge/Postman-red)
+ ![Swagger](https://img.shields.io/badge/Swagger-lightblue)
+ ![GitHub](https://img.shields.io/badge/-GitHub-181717.svg?logo=github&style=flat)
+ ![IntelliJ IDEA](https://img.shields.io/badge/-intellij%20IDEA-000.svg?logo=intellij-idea&style=flat)
 
-<img width="308" alt="スクリーンショット 2024-12-25 11 36 26" src="https://github.com/user-attachments/assets/be21dee2-480f-4790-be2b-e1ac7c7b3e0c" />
+## 機能一覧
 
-与えたデータとその結果は以下のとおり
+※言葉の定義は以下の通りです。
 
-<img width="285" alt="スクリーンショット 2024-12-25 11 39 45" src="https://github.com/user-attachments/assets/a3844ff2-2379-490e-9d4a-90a26226a666" />
-<img width="1149" alt="スクリーンショット 2024-12-25 11 39 40" src="https://github.com/user-attachments/assets/e0dd156d-7324-49de-a74e-2f5320bd3581" />
+## 設計書
+### API仕様書
+（※スクリーンショットだけなので、長いです。）
+
+### APIのURL設計
+
+## 力を入れたところ
+
+## 今後の展望
