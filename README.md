@@ -48,7 +48,7 @@ JavaやSpringBootの学習成果を形にするために作成しております
 （※スクリーンショットだけなので、長いです。）
 <details>
   <summary>画像を表示する</summary>
-  <img src="![localhost_8080_swagger-ui_index html](https://github.com/user-attachments/assets/e223a14b-b95c-4f52-be57-42ed5dee7ebf)" alt="画像説明" />
+  <img src="https://github.com/user-attachments/assets/79932a2c-736d-48c4-b00d-bfdba736c649" alt="画像説明" />
 </details>
 
 
