@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,9 +46,10 @@ class StudentConverterTest {
         studentCourseList);
 
     // expected（期待値）を準備
-    StudentDetail studentDetail1 = studentDetails.get(0);
-    StudentDetail studentDetail2 = studentDetails.get(1);
-    List<StudentDetail> expected = List.of(studentDetail1, studentDetail2);
+    List<StudentDetail> expected = List.of(
+        new StudentDetail(student1, List.of(studentCourse1, studentCourse2)),
+        new StudentDetail(student2, List.of(studentCourse3))
+    );
 
     assertEquals(expected, studentDetails);
   }
@@ -64,7 +66,10 @@ class StudentConverterTest {
     List<StudentDetail> studentDetails = sut.convertStudentDetails(studentList,
         studentCourseList);
 
-    List<StudentDetail> expected = List.of(studentDetails.get(0), studentDetails.get(1));
+    List<StudentDetail> expected = List.of(
+        new StudentDetail(student1, Collections.emptyList()),
+        new StudentDetail(student2, Collections.emptyList())
+    );
 
     assertEquals(expected, studentDetails);
 
