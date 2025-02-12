@@ -41,7 +41,7 @@ class StudentRepositoryTest {
   }
 
   @Test
-  void 受講生IDに紐づく受講生コース情報が検索できること() {
+  void 正常系_受講生IDに紐づく受講生コース情報が検索できること() {
     StudentCourse studentCourse1 = new StudentCourse("1", "1", "Java",
         LocalDateTime.of(2024, 1, 1, 0, 0), LocalDateTime.of(2024, 8, 10, 0, 0));
     StudentCourse studentCourse2 = new StudentCourse("2", "1", "AWS",
