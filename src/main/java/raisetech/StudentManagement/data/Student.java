@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Student {
 
   private String studentId;
