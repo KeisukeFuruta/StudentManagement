@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.controller.converter.StudentCourseConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -30,13 +31,16 @@ class StudentServiceTest {
   private StudentRepository repository;
 
   @Mock
-  private StudentConverter converter;
+  private StudentConverter studentConverter;
+
+  @Mock
+  private StudentCourseConverter courseConverter;
 
   private StudentService sut;
 
   @BeforeEach
   void before() {
-    sut = new StudentService(repository, converter);
+    sut = new StudentService(repository, studentConverter, courseConverter);
   }
 
   @Test
@@ -50,7 +54,7 @@ class StudentServiceTest {
 
     verify(repository, times(1)).search();
     verify(repository, times(1)).searchStudentCourseList();
-    verify(converter, times(1)).convertStudentDetails(studentList, studentCourseList);
+    verify(studentConverter, times(1)).convertStudentDetails(studentList, studentCourseList);
   }
 
   @Test

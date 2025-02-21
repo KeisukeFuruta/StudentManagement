@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import raisetech.StudentManagement.domain.StudentCourseDetail;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.exception.ErrorResponse;
 import raisetech.StudentManagement.service.StudentService;
@@ -38,7 +39,7 @@ public class StudentController {
 
   /**
    * 受講生詳細の一覧検索です。
-   * 全件検索を行うので、条件指定は行わないません。
+   * 全件検索を行うので、条件指定は行ないません。
    *
    * @return　受講生詳細一覧（全件）
    */
@@ -46,6 +47,18 @@ public class StudentController {
   @GetMapping("/students")
   public List<StudentDetail> getStudentList() {
     return service.searchStudentList();
+  }
+
+  /**
+   * 受講コース詳細の一覧検索です。
+   * 全件検索を行うので、条件指定は行いません。
+   * ※このまま残すか迷い中なので、SwaggerUI用のコメントは入れていません。
+   *
+   * @return 受講コース詳細一覧(全件)
+   */
+  @GetMapping("/students/status")
+  public List<StudentCourseDetail> getCourseStatus() {
+    return service.searchCourseStatusList();
   }
 
   /**

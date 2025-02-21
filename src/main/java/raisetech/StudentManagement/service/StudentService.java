@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.controller.converter.StudentCourseConverter;
+import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
+import raisetech.StudentManagement.domain.StudentCourseDetail;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
@@ -20,12 +23,15 @@ import raisetech.StudentManagement.repository.StudentRepository;
 public class StudentService {
 
   private StudentRepository repository;
-  private StudentConverter converter;
+  private StudentConverter studentConverter;
+  private StudentCourseConverter courseConverter;
 
   @Autowired
-  public StudentService(StudentRepository repository, StudentConverter converter) {
+  public StudentService(StudentRepository repository, StudentConverter studentConverter,
+      StudentCourseConverter courseConverter) {
     this.repository = repository;
-    this.converter = converter;
+    this.studentConverter = studentConverter;
+    this.courseConverter = courseConverter;
   }
 
   /**
@@ -37,8 +43,21 @@ public class StudentService {
   public List<StudentDetail> searchStudentList() {
     List<Student> studentList = repository.search();
     List<StudentCourse> studentCourseList = repository.searchStudentCourseList();
-    return converter.convertStudentDetails(studentList, studentCourseList);
+    return studentConverter.convertStudentDetails(studentList, studentCourseList);
   }
+
+  /**
+   * 受講コース詳細の一覧検索です。
+   * 全件検索を行うので、条件指定は行いません。
+   *
+   * @return 受講コース詳細一覧(全件)
+   */
+  public List<StudentCourseDetail> searchCourseStatusList() {
+    List<StudentCourse> studentCourseList = repository.searchStudentCourseList();
+    List<CourseStatus> courseStatusList = repository.searchStatusList();
+    return courseConverter.convertStudentCourseDetails(studentCourseList, courseStatusList);
+  }
+
 
   /**
    * 受講生詳細検索です。

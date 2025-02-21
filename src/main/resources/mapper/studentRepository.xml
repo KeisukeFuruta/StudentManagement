@@ -62,4 +62,17 @@
     course_name = #{courseName}
     WHERE course_id = #{courseId}
   </update>
+
+  <!-- 申込状況の全件検索 -->
+  <select id="searchStatusList" resultType="raisetech.StudentManagement.data.CourseStatus">
+    SELECT * FROM course_status
+  </select>
+
+  <!-- 申込状況の検索 -->
+  <select id="searchStatus" resultType="raisetech.StudentManagement.data.CourseStatus">
+    SELECT * FROM course_status
+    JOIN student_course ON course_status.course_id = student_course.course_id
+    WHERE student_course.student_id = #{id}
+  </select>
+
 </mapper>
