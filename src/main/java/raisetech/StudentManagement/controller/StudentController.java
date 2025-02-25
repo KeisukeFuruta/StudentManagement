@@ -12,15 +12,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import raisetech.StudentManagement.domain.StudentCourseDetail;
 import raisetech.StudentManagement.domain.StudentDetail;
-import raisetech.StudentManagement.exception.ErrorResponse;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -50,18 +49,6 @@ public class StudentController {
   }
 
   /**
-   * 受講コース詳細の一覧検索です。
-   * 全件検索を行うので、条件指定は行いません。
-   * ※このまま残すか迷い中なので、SwaggerUI用のコメントは入れていません。
-   *
-   * @return 受講コース詳細一覧(全件)
-   */
-  @GetMapping("/students/status")
-  public List<StudentCourseDetail> getCourseStatus() {
-    return service.searchCourseStatusList();
-  }
-
-  /**
    * 受講生詳細の検索です。
    * IDに紐づく任意の受講生の情報を取得します。
    *
@@ -83,7 +70,6 @@ public class StudentController {
       @Pattern(regexp = "^\\d+$", message = "IDは数字のみ入力してください。") String studentId) {
     return service.searchStudentDetail(studentId);
   }
-
 
   /**
    * 受講生詳細の登録を行います。

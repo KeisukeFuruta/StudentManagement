@@ -18,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
-import raisetech.StudentManagement.controller.converter.StudentCourseConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -33,14 +32,11 @@ class StudentServiceTest {
   @Mock
   private StudentConverter studentConverter;
 
-  @Mock
-  private StudentCourseConverter courseConverter;
-
   private StudentService sut;
 
   @BeforeEach
   void before() {
-    sut = new StudentService(repository, studentConverter, courseConverter);
+    sut = new StudentService(repository, studentConverter);
   }
 
   @Test
@@ -98,7 +94,7 @@ class StudentServiceTest {
 
     assertNotNull(result);
     assertEquals(student, result.getStudent());
-    assertEquals(studentCourse, result.getStudentCourseList());
+    assertEquals(studentCourse, result.getStudentCourseDetailList());
   }
 
   @Test
@@ -109,7 +105,7 @@ class StudentServiceTest {
     StudentDetail studentDetail = mock(StudentDetail.class);
 
     when(studentDetail.getStudent()).thenReturn(student);
-    when(studentDetail.getStudentCourseList()).thenReturn(studentCourseList);
+    when(studentDetail.getStudentCourseDetailList()).thenReturn(studentCourseList);
 
     sut.registerStudent(studentDetail);
 
@@ -125,7 +121,7 @@ class StudentServiceTest {
     StudentDetail studentDetail = mock(StudentDetail.class);
 
     when(studentDetail.getStudent()).thenReturn(student);
-    when(studentDetail.getStudentCourseList()).thenReturn(studentCourseList);
+    when(studentDetail.getStudentCourseDetailList()).thenReturn(studentCourseList);
 
     sut.updateStudent(studentDetail);
 
@@ -141,7 +137,7 @@ class StudentServiceTest {
     when(course2.getCourseName()).thenReturn("WPコース");
 
     StudentDetail studentDetail = mock(StudentDetail.class);
-    when(studentDetail.getStudentCourseList()).thenReturn(List.of(course1, course2));
+    when(studentDetail.getStudentCourseDetailList()).thenReturn(List.of(course1, course2));
 
     assertDoesNotThrow(() -> {
       sut.validateDuplicateStudentCourse(studentDetail);
@@ -156,7 +152,7 @@ class StudentServiceTest {
     when(course2.getCourseName()).thenReturn("Javaコース");
 
     StudentDetail studentDetail = mock(StudentDetail.class);
-    when(studentDetail.getStudentCourseList()).thenReturn(List.of(course1, course2));
+    when(studentDetail.getStudentCourseDetailList()).thenReturn(List.of(course1, course2));
 
     assertThrows(IllegalArgumentException.class, () -> {
       sut.validateDuplicateStudentCourse(studentDetail);

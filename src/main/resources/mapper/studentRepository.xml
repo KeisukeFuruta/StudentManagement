@@ -23,6 +23,18 @@
     SELECT * FROM students_Courses WHERE student_id = #{id}
   </select>
 
+  <!-- 申込状況の全件検索 -->
+  <select id="searchStatusList" resultType="raisetech.StudentManagement.data.CourseStatus">
+    SELECT * FROM course_status
+  </select>
+
+  <!-- 申込状況の検索 -->
+  <select id="searchStatus" resultType="raisetech.StudentManagement.data.CourseStatus">
+    SELECT * FROM course_status
+    JOIN students_courses ON course_status.course_id = students_courses.course_id
+    WHERE students_courses.student_id = #{id}
+  </select>
+
   <!-- 受講生の新規登録 -->
   <insert id="registerStudent" parameterType="raisetech.StudentManagement.data.Student"
     useGeneratedKeys="true" keyProperty="studentId">
@@ -37,6 +49,13 @@
     useGeneratedKeys="true" keyProperty="courseId">
     INSERT INTO students_courses (student_id, course_name, start_date, expected_end_date)
     VALUES(#{studentId}, #{courseName}, #{startDate}, #{expectedEndDate})
+  </insert>
+
+  <!-- 申込状況の新規登録 -->
+  <insert id="registerCourseStatus" parameterType="raisetech.StudentManagement.data.CourseStatus"
+    useGeneratedKeys="true" keyProperty="statusId">
+    INSERT INTO course_status (course_id, status)
+    VALUES(#{courseId},'仮申込')
   </insert>
 
   <!-- 受講生の更新 -->
@@ -63,16 +82,11 @@
     WHERE course_id = #{courseId}
   </update>
 
-  <!-- 申込状況の全件検索 -->
-  <select id="searchStatusList" resultType="raisetech.StudentManagement.data.CourseStatus">
-    SELECT * FROM course_status
-  </select>
-
-  <!-- 申込状況の検索 -->
-  <select id="searchStatus" resultType="raisetech.StudentManagement.data.CourseStatus">
-    SELECT * FROM course_status
-    JOIN student_course ON course_status.course_id = student_course.course_id
-    WHERE student_course.student_id = #{id}
-  </select>
+  <!-- 申込状況の更新 -->
+  <update id="updateCourseStatus" parameterType="raisetech.StudentManagement.data.CourseStatus">
+    UPDATE course_status
+    SET
+    status = #{status}
+  </update>
 
 </mapper>

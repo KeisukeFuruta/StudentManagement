@@ -72,6 +72,15 @@ public interface StudentRepository {
   void registerStudentCourse(StudentCourse studentCourse);
 
   /**
+   * 申込状況を新規登録します。
+   * statusIdは自動採番、courseIdはServiceクラスにて設定しています。
+   * 新規登録時のstatusは全て'仮申込'になるよう設定しています。
+   *
+   * @param courseStatus
+   */
+  void registerCourseStatus(CourseStatus courseStatus);
+
+  /**
    * 受講生を更新します。
    *
    * @param student 受講生
@@ -84,5 +93,12 @@ public interface StudentRepository {
    * @param studentCourse 受講生コース情報
    */
   void updateStudentCourse(StudentCourse studentCourse);
+
+  /**
+   * 申込状況を更新します。
+   *
+   * @param courseStatus
+   */
+  void updateCourseStatus(CourseStatus courseStatus);
 
 }

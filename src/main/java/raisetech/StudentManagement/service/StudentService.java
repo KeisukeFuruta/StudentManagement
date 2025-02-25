@@ -1,17 +1,16 @@
 package raisetech.StudentManagement.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
-import raisetech.StudentManagement.controller.converter.StudentCourseConverter;
 import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
-import raisetech.StudentManagement.domain.StudentCourseDetail;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
@@ -24,14 +23,11 @@ public class StudentService {
 
   private StudentRepository repository;
   private StudentConverter studentConverter;
-  private StudentCourseConverter courseConverter;
 
   @Autowired
-  public StudentService(StudentRepository repository, StudentConverter studentConverter,
-      StudentCourseConverter courseConverter) {
+  public StudentService(StudentRepository repository, StudentConverter studentConverter) {
     this.repository = repository;
     this.studentConverter = studentConverter;
-    this.courseConverter = courseConverter;
   }
 
   /**
@@ -42,20 +38,19 @@ public class StudentService {
    */
   public List<StudentDetail> searchStudentList() {
     List<Student> studentList = repository.search();
-    List<StudentCourse> studentCourseList = repository.searchStudentCourseList();
-    return studentConverter.convertStudentDetails(studentList, studentCourseList);
-  }
+    List<StudentDetail> studentDetails = new ArrayList<>();
 
-  /**
-   * 受講コース詳細の一覧検索です。
-   * 全件検索を行うので、条件指定は行いません。
-   *
-   * @return 受講コース詳細一覧(全件)
-   */
-  public List<StudentCourseDetail> searchCourseStatusList() {
-    List<StudentCourse> studentCourseList = repository.searchStudentCourseList();
-    List<CourseStatus> courseStatusList = repository.searchStatusList();
-    return courseConverter.convertStudentCourseDetails(studentCourseList, courseStatusList);
+    for (Student student : studentList) {
+      List<StudentCourse> studentCourseList = repository.searchStudentCourse(
+          student.getStudentId());
+      List<CourseStatus> courseStatusList = repository.searchStatusList();
+
+      List<StudentDetail> studentDetailList = studentConverter.convertStudentDetails(
+          List.of(student), studentCourseList, courseStatusList);
+
+      studentDetails.addAll(studentDetailList);
+    }
+    return studentDetails;
   }
 
 
@@ -72,8 +67,10 @@ public class StudentService {
       throw new IllegalArgumentException(
           "リクエストされたIDが存在しません。指定したid: " + studentId);
     }
-    List<StudentCourse> studentCourse = repository.searchStudentCourse(student.getStudentId());
-    return new StudentDetail(student, studentCourse);
+    List<StudentCourse> studentCourseList = repository.searchStudentCourse(student.getStudentId());
+    List<CourseStatus> courseStatusList = repository.searchStatus(student.getStudentId());
+    return studentConverter.buildStudentDetail(student, studentCourseList,
+        courseStatusList);
   }
 
   /**
@@ -87,10 +84,19 @@ public class StudentService {
   public StudentDetail registerStudent(StudentDetail studentDetail) {
     Student student = studentDetail.getStudent();
 
+    // 受講生を設定
     repository.registerStudent(student);
-    studentDetail.getStudentCourseList().forEach(studentCourse -> {
+
+    studentDetail.getStudentCourseDetailList().forEach(studentCourseDetail -> {
+      StudentCourse studentCourse = studentCourseDetail.getStudentCourse();
+      CourseStatus courseStatus = studentCourseDetail.getCourseStatus();
+
       initStudentsCourse(studentCourse, student);
       repository.registerStudentCourse(studentCourse);
+
+      String courseId = studentCourse.getCourseId();
+      courseStatus.setCourseId(courseId);
+      repository.registerCourseStatus(courseStatus);
     });
     return studentDetail;
   }
@@ -119,9 +125,15 @@ public class StudentService {
   public void updateStudent(StudentDetail studentDetail) {
     repository.updateStudent(studentDetail.getStudent());
 
-    studentDetail.getStudentCourseList().forEach(studentCourse -> {
+    studentDetail.getStudentCourseDetailList().forEach(studentCourseDetail -> {
+      StudentCourse studentCourse = studentCourseDetail.getStudentCourse();
+      CourseStatus courseStatus = studentCourseDetail.getCourseStatus();
+
       studentCourse.setStudentId(studentDetail.getStudent().getStudentId());
       repository.updateStudentCourse(studentCourse);
+
+      courseStatus.setCourseId(studentCourse.getCourseId());
+      repository.updateCourseStatus(courseStatus);
     });
   }
 
@@ -131,10 +143,9 @@ public class StudentService {
    * @param studentDetail 受講生詳細
    */
   public void validateDuplicateStudentCourse(StudentDetail studentDetail) {
-    // コース名のリストを取得
-    List<String> courseNames = studentDetail.getStudentCourseList()
+    List<String> courseNames = studentDetail.getStudentCourseDetailList()
         .stream()
-        .map(StudentCourse::getCourseName)
+        .map(studentCourseDetail -> studentCourseDetail.getStudentCourse().getCourseName())
         .toList();
 
     // コース名重複チェック
