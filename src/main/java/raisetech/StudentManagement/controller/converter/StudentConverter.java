@@ -96,7 +96,6 @@ public class StudentConverter {
   private CourseStatus findCourseStatus(StudentCourse studentCourse,
       List<CourseStatus> courseStatusList) {
 
-    // todo:コンテキストアクションの改善
     CourseStatus courseStatus = courseStatusList.stream()
         .filter(status -> status.getCourseId().equals(studentCourse.getCourseId()))
         .findFirst()

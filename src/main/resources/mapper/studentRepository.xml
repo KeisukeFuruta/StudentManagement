@@ -87,6 +87,7 @@
     UPDATE course_status
     SET
     status = #{status}
+    WHERE course_id = #{courseId}
   </update>
 
 </mapper>
