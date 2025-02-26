@@ -142,7 +142,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生詳細の更新_リポジトリが適切に呼び出せて受講生コース情報詳細を登録できていること() {
+  void 正常系_受講生詳細の更新_リポジトリが適切に呼び出せて受講生コース情報詳細を登録できていること() {
     Student student = mock(Student.class);
     List<StudentCourse> studentCourseList = List.of(mock(StudentCourse.class),
         mock(StudentCourse.class));
@@ -162,7 +162,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void コース名の重複登録を防ぐバリデーション処理_重複がない場合() {
+  void 正常系_コース名の重複登録を防ぐバリデーション処理_重複がない場合() {
     StudentCourse course1 = mock(StudentCourse.class);
     StudentCourse course2 = mock(StudentCourse.class);
     when(course1.getCourseName()).thenReturn("Javaコース");
@@ -181,7 +181,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void コース名の重複登録を防ぐバリデーション処理_重複がある場合() {
+  void 異常系_コース名の重複登録を防ぐバリデーション処理_重複がある場合() {
     StudentCourse course1 = mock(StudentCourse.class);
     StudentCourse course2 = mock(StudentCourse.class);
     when(course1.getCourseName()).thenReturn("Javaコース");
