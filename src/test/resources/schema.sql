@@ -18,3 +18,9 @@ CREATE TABLE students_courses(
     start_date DATE,
     expected_end_date DATE
 );
+
+CREATE TABLE course_status(
+    status_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_id INT NOT NULL,
+    status enum('仮申込','本申込','受講中','受講終了')
+);

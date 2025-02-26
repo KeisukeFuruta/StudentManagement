@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 
@@ -35,7 +36,7 @@ class StudentRepositoryTest {
   }
 
   @Test
-  void 正常系_受講生のコース情報の全件検索ができること() {
+  void 正常系_受講生の受講生コース情報の全件検索ができること() {
     List<StudentCourse> actual = sut.searchStudentCourseList();
     assertThat(actual.size()).isEqualTo(5);
   }
@@ -99,6 +100,46 @@ class StudentRepositoryTest {
     sut.updateStudentCourse(studentCourse1);
 
     List<StudentCourse> actual = sut.searchStudentCourse("1");
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_申込状況の全件検索が行えること() {
+    List<CourseStatus> actual = sut.searchStatusList();
+    assertThat(actual.size()).isEqualTo(5);
+  }
+
+  @Test
+  void 正常系_申込状況の検索が行えること() {
+    CourseStatus courseStatus1 = new CourseStatus("1", "1", "仮申込");
+    CourseStatus courseStatus2 = new CourseStatus("2", "2", "仮申込");
+    List<CourseStatus> expected = List.of(courseStatus1, courseStatus2);
+
+    List<CourseStatus> actual = sut.searchStatus("1");
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_申込状況の登録が行えること() {
+    CourseStatus courseStatus = new CourseStatus("", "6", "仮申込");
+    sut.registerCourseStatus(courseStatus);
+
+    List<CourseStatus> actual = sut.searchStatusList();
+
+    assertThat(actual.size()).isEqualTo(6);
+  }
+
+  @Test
+  void 正常系_申込状況の更新が行えること() {
+    CourseStatus courseStatus1 = new CourseStatus("1", "1", "本申込");
+    CourseStatus courseStatus2 = new CourseStatus("2", "2", "仮申込");
+    List<CourseStatus> expected = List.of(courseStatus1, courseStatus2);
+
+    sut.updateCourseStatus(courseStatus1);
+
+    List<CourseStatus> actual = sut.searchStatus("1");
 
     assertEquals(expected, actual);
   }
