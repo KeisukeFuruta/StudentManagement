@@ -2,6 +2,7 @@ package raisetech.StudentManagement.controller.converter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import raisetech.StudentManagement.data.CourseStatus;
@@ -80,9 +81,9 @@ public class StudentConverter {
     StudentCourseDetail studentCourseDetail = new StudentCourseDetail();
     studentCourseDetail.setStudentCourse(studentCourse);
 
-    CourseStatus courseStatus = findCourseStatus(studentCourse, courseStatusList);
+    findCourseStatus(studentCourse, courseStatusList)
+        .ifPresent(studentCourseDetail::setCourseStatus);
 
-    studentCourseDetail.setCourseStatus(courseStatus);
     return studentCourseDetail;
   }
 
@@ -93,13 +94,12 @@ public class StudentConverter {
    * @param courseStatusList
    * @return 受講生コース情報に紐づく申申込状況
    */
-  private CourseStatus findCourseStatus(StudentCourse studentCourse,
+  private Optional<CourseStatus> findCourseStatus(StudentCourse studentCourse,
       List<CourseStatus> courseStatusList) {
 
-    CourseStatus courseStatus = courseStatusList.stream()
+    // courseIdが一致するCourseStatusを探す
+    return courseStatusList.stream()
         .filter(status -> status.getCourseId().equals(studentCourse.getCourseId()))
-        .findFirst()
-        .get();
-    return courseStatus;
+        .findFirst();
   }
 }

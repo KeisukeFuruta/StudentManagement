@@ -90,4 +90,47 @@
     WHERE course_id = #{courseId}
   </update>
 
+  <!-- 受講生の条件指定検索 -->
+  <select id="searchStudentCondition" parameterType="raisetech.StudentManagement.data.Student">
+    SELECT * FROM students
+    WHERE 1=1
+    <if test="name != null and name != ''">
+      AND name LIKE CONCAT('%',#{name}, '%')
+    </if>
+    <if test="furigana != null and furigana != ''">
+      AND furigana LIKE CONCAT('%',#{furigana}, '%')
+    </if>
+    <if test="residentialArea != null and residentialArea != ''">
+      AND residential_area LIKE CONCAT('%',#{residentialArea}, '%')
+    </if>
+    <if test="age != null and age !=''">
+      AND age = #{age}
+    </if>
+    <if test="gender != null and gender != ''">
+      AND gender = #{gender}
+    </if>
+    <if test="remark != null and remark != ''">
+      AND remark LIKE CONCAT('%',#{remark}, '%')
+    </if>
+  </select>
+
+  <!-- 受講生コースの条件指定検索 -->
+  <select id="searchCourseCondition" parameterType="raisetech.StudentManagement.data.StudentCourse">
+    SELECT * FROM students_Courses
+    WHERE 1=1
+    <if test="courseName != null and courseName != ''">
+      AND course_name LIKE CONCAT('%',#{courseName}, '%')
+    </if>
+  </select>
+
+  <!-- 受講生コースの条件指定検索 -->
+  <select id="searchStatusCondition" parameterType="raisetech.StudentManagement.data.CourseStatus">
+    SELECT * FROM course_status
+    WHERE 1=1
+    <if test="status != null and status != ''">
+      AND status = #{status}
+    </if>
+  </select>
+
+
 </mapper>

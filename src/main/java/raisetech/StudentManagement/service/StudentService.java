@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,6 +138,78 @@ public class StudentService {
       repository.updateCourseStatus(courseStatus);
     });
   }
+
+  /**
+   * 指定された条件に基づき、受講生を検索します。
+   *
+   * @param name     　名前
+   * @param furigana 　フリガナ
+   * @return
+   */
+  public List<StudentDetail> searchStudentCondition(String name, String furigana,
+      String residentialArea,
+      Integer age, String gender, String remark, String courseName, String status) {
+
+    // 受講生の検索条件が入力された場合にリポジトリを呼び出す
+    List<Student> studentList = repository.searchStudentCondition(name, furigana, residentialArea,
+        age, gender, remark);
+
+    // コース名でフィルタリングされたstudentCourse
+    List<StudentCourse> filteredStudentCourseList = new ArrayList<>();
+    if (courseName != null && !courseName.isEmpty()) {
+      filteredStudentCourseList = repository.searchCourseCondition(courseName);
+    }
+
+    // 全てのコース情報を取得(フィルタリングなし)
+    List<StudentCourse> allStudentCourseList = repository.searchStudentCourseList();
+
+    // ステータスでフィルタリングされたCourseStatusList
+    List<CourseStatus> filteredCourseStatusList = new ArrayList<>();
+    if (status != null && !status.isEmpty()) {
+      filteredCourseStatusList = repository.searchStatusCondition(status);
+    }
+
+    // 申込状況の検索条件が入力された場合にリポジトリを呼び出す
+    List<CourseStatus> allCourseStatusList = repository.searchStatusList();
+
+    // ステータスでフィルタリングしている場合、そのステータスを持つコースのstudentIdのリストを作成
+    Set<String> studentIdsWithMatchingStatus = new HashSet<>();
+
+    // コース名でフィルタリングしている場合
+    if (courseName != null && !courseName.isEmpty() && !filteredStudentCourseList.isEmpty()) {
+      filteredStudentCourseList.forEach(studentCourse ->
+          studentIdsWithMatchingStatus.add(studentCourse.getStudentId()));
+    }
+
+    // 申込状況でフィルタリングしている場合
+    if (status != null && !status.isEmpty() && !filteredCourseStatusList.isEmpty()) {
+      filteredCourseStatusList.forEach(courseStatus -> {
+        allStudentCourseList.stream()
+            .filter(course -> course.getCourseId().equals(courseStatus.getCourseId()))
+            .forEach(course -> studentIdsWithMatchingStatus.add(course.getStudentId()));
+      });
+    }
+
+    // 学生詳細情報の構築
+    List<StudentDetail> allStudentDetails = studentConverter.convertStudentDetails(studentList,
+        allStudentCourseList, allCourseStatusList);
+
+    // ステータスでフィルタリングしている場合
+    if ((courseName != null && !courseName.isEmpty()) ||
+        (status != null && !status.isEmpty())) {
+      // 指定されたステータスを持つコースがある学生だけをフィルタリング
+      return allStudentDetails.stream()
+          .filter(studentDetail -> studentIdsWithMatchingStatus.contains(
+              studentDetail.getStudent().getStudentId()))
+          .collect(Collectors.toList());
+    } else {
+      // ステータスでフィルタリングしていない場合は、コースが空でない学生だけを返す
+      return allStudentDetails.stream()
+          .filter(studentDetail -> !studentDetail.getStudentCourseDetailList().isEmpty())
+          .collect(Collectors.toList());
+    }
+  }
+
 
   /**
    * コース名の重複登録を防ぐバリデーション処理

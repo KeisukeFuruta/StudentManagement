@@ -2,6 +2,7 @@ package raisetech.StudentManagement.repository;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -97,8 +98,48 @@ public interface StudentRepository {
   /**
    * 申込状況を更新します。
    *
-   * @param courseStatus
+   * @param courseStatus 　申込状況
    */
   void updateCourseStatus(CourseStatus courseStatus);
+
+  /**
+   * 指定された条件に基づき、受講生を検索します。
+   *
+   * @param name            名前
+   * @param furigana        フリガナ
+   * @param residentialArea 住所
+   * @param age             年齢
+   * @param gender          性別
+   * @param remark          備考
+   * @return 該当する受講生
+   */
+  List<Student> searchStudentCondition(
+      @Param("name") String name,
+      @Param("furigana") String furigana,
+      @Param("residentialArea") String residentialArea,
+      @Param("age") Integer age,
+      @Param("gender") String gender,
+      @Param("remark") String remark
+  );
+
+  /**
+   * コース名を指定し、該当する受講コース情報を返します
+   *
+   * @param courseName
+   * @return　該当する受講コース情報
+   */
+  List<StudentCourse> searchCourseCondition(
+      @Param("courseName") String courseName
+  );
+
+  /**
+   * 受講状況を指定し、該当する申込状況を返します
+   *
+   * @param status
+   * @return　該当する申込状況
+   */
+  List<CourseStatus> searchStatusCondition(
+      @Param("status") String status
+  );
 
 }

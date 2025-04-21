@@ -143,4 +143,99 @@ class StudentRepositoryTest {
 
     assertEquals(expected, actual);
   }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_名前で検索() {
+    Student student = new Student("1", "山田太郎", "ヤマダタロウ", "タロちゃん",
+        "taro.yamada@example.com", "東京都", 25, "男性", "なし", false);
+    List<Student> expected = List.of(student);
+
+    List<Student> actual = sut.searchStudentCondition("山田", null, null, null, null, null);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_フリガナで検索() {
+    Student student1 = new Student("1", "山田太郎", "ヤマダタロウ", "タロちゃん",
+        "taro.yamada@example.com", "東京都", 25, "男性", "なし", false);
+    Student student2 = new Student("3", "佐藤一郎", "サトウイチロウ", "イッチー",
+        "ichiro.sato@example.com", "北海道", 28, "男性", "なし", false);
+    List<Student> expected = List.of(student1, student2);
+
+    List<Student> actual = sut.searchStudentCondition(null, "ロウ", null, null, null, null);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_住所で検索() {
+    Student student = new Student("1", "山田太郎", "ヤマダタロウ", "タロちゃん",
+        "taro.yamada@example.com", "東京都", 25, "男性", "なし", false);
+    List<Student> expected = List.of(student);
+
+    List<Student> actual = sut.searchStudentCondition(null, null, "東京", null, null, null);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_年齢で検索() {
+    Student student = new Student("1", "山田太郎", "ヤマダタロウ", "タロちゃん",
+        "taro.yamada@example.com", "東京都", 25, "男性", "なし", false);
+    List<Student> expected = List.of(student);
+
+    List<Student> actual = sut.searchStudentCondition(null, null, null, 25, null, null);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_性別で検索() {
+    Student student1 = new Student("1", "山田太郎", "ヤマダタロウ", "タロちゃん",
+        "taro.yamada@example.com", "東京都", 25, "男性", "なし", false);
+    Student student2 = new Student("3", "佐藤一郎", "サトウイチロウ", "イッチー",
+        "ichiro.sato@example.com", "北海道", 28, "男性", "なし", false);
+    Student student3 = new Student("5", "高橋健二", "タカハシケンジ", "ケンジ",
+        "kenji.takahashi@example.com", "神奈川県", 35, "男性", "受け放題", false);
+
+    List<Student> expected = List.of(student1, student2, student3);
+
+    List<Student> actual = sut.searchStudentCondition(null, null, null, null, "男性", null);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_備考で検索() {
+    Student student3 = new Student("5", "高橋健二", "タカハシケンジ", "ケンジ",
+        "kenji.takahashi@example.com", "神奈川県", 35, "男性", "受け放題", false);
+    List<Student> expected = List.of(student3);
+
+    List<Student> actual = sut.searchStudentCondition(null, null, null, null, null, "受け放題");
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_コース名で検索() {
+    StudentCourse studentCourse = new StudentCourse("2", "1", "AWS",
+        LocalDateTime.of(2024, 5, 10, 0, 0), null);
+    List<StudentCourse> expected = List.of(studentCourse);
+
+    List<StudentCourse> actual = sut.searchCourseCondition("AWS");
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 正常系_検索された条件に基づいて受講生が検索されること_申込状況で検索() {
+    CourseStatus courseStatus = new CourseStatus("5", "5", "受講中");
+    List<CourseStatus> expected = List.of(courseStatus);
+
+    List<CourseStatus> actual = sut.searchStatusCondition("受講中");
+
+    assertEquals(expected, actual);
+  }
+
 }

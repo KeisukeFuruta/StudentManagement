@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
@@ -115,6 +116,22 @@ public class StudentController {
       @RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました。");
+  }
+
+  @GetMapping("/students/search")
+  public List<StudentDetail> searchStudent(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) String furigana,
+      @RequestParam(required = false) String residentialArea,
+      @RequestParam(required = false) Integer age,
+      @RequestParam(required = false) String gender,
+      @RequestParam(required = false) String remark,
+      @RequestParam(required = false) String courseName,
+      @RequestParam(required = false) String status
+  ) {
+
+    return service.searchStudentCondition(name, furigana, residentialArea, age, gender, remark,
+        courseName, status);
   }
 
   // エラーを投げる用のメソッド

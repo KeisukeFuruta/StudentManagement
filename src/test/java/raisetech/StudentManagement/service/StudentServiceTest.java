@@ -162,6 +162,11 @@ class StudentServiceTest {
   }
 
   @Test
+  void 正常系_指定された検索条件に基づいた受講生が返ってくること_() {
+    // todo:テストコードを書くところからスタート
+  }
+
+  @Test
   void 正常系_コース名の重複登録を防ぐバリデーション処理_重複がない場合() {
     StudentCourse course1 = mock(StudentCourse.class);
     StudentCourse course2 = mock(StudentCourse.class);
