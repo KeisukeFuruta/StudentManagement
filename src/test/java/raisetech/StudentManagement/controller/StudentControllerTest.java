@@ -105,11 +105,16 @@ class StudentControllerTest {
                 "gender": "男性",
                 "remark": "なし"
                 },
-                "studentCourseList": [
-                    {
-                        "courseName": "Javaコース"
-                    }
-                ]
+                "studentCourseDetailList": [
+                   {
+                   "studentCourse": {
+                       "courseName": "Javaコース"
+                       },
+                   "courseStatus":{
+        
+                       }
+                   }
+               ]
         }
         """;
     mockMvc.perform(post("/students")
@@ -133,11 +138,16 @@ class StudentControllerTest {
                 "gender": "男性",
                 "remark": "なし"
                 },
-                "studentCourseList": [
-                    {
-                        "courseName": "Javaコース"
-                    }
-                ]
+                "studentCourseDetailList": [
+                   {
+                   "studentCourse": {
+                       "courseName": "Javaコース"
+                       },
+                   "courseStatus":{
+        
+                       }
+                   }
+               ]
         }
         """;
 
@@ -164,11 +174,16 @@ class StudentControllerTest {
                 "gender": "テスト",
                 "remark": "なし"
                 },
-                "studentCourseList": [
-                    {
-                        "courseName": "Javaコース"
-                    }
-                ]
+                "studentCourseDetailList": [
+                   {
+                   "studentCourse": {
+                       "courseName": "Javaコース"
+                       },
+                   "courseStatus":{
+        
+                       }
+                   }
+               ]
         }
         """;
 
@@ -196,11 +211,16 @@ class StudentControllerTest {
                 "gender": "男性",
                 "remark": "なし"
                 },
-                "studentCourseList": [
-                    {
-                        "courseName": "Javaコース"
-                    }
-                ]
+                "studentCourseDetailList": [
+                   {
+                   "studentCourse": {
+                       "courseName": "Javaコース"
+                       },
+                   "courseStatus":{
+        
+                       }
+                   }
+               ]
         }
         """;
 
@@ -229,14 +249,24 @@ class StudentControllerTest {
                 "remark": "なし",
                 "isDeleted": false
                 },
-                "studentCourseList": [
-                    {
-                        "courseName": "Javaコース"
-                    },
-                    {
-                        "courseName": "Javaコース"
-                    }
-                ]
+                "studentCourseDetailList": [
+                   {
+                   "studentCourse": {
+                       "courseName": "Javaコース"
+                       },
+                   "courseStatus":{
+        
+                       }
+                   },
+                   {
+                   "studentCourse": {
+                       "courseName": "Javaコース"
+                        },
+                   "courseStatus":{
+        
+                        }
+                   }
+               ]
         }
         """;
     doThrow(new IllegalArgumentException("重複したコース名は登録できません"))
@@ -266,12 +296,18 @@ class StudentControllerTest {
                 "gender": "男性",
                 "remark": "なし"
                 },
-                "studentCourseList": [
+                 "studentCourseDetailList": [
                     {
-                        "courseId": "56",
-                        "courseName": "Javaコース"
-                    }
-                ]
+                       "studentCourse": {
+                           "courseId": "56",
+                           "courseName": "Javaコース"
+                       },
+                       "courseStatus": {
+                           "statusId": "1",
+                           "statusName": "受講中"
+                       }
+                   }
+                 ]
         }
         """;
 
@@ -300,12 +336,18 @@ class StudentControllerTest {
                 "gender": "男性",
                 "remark": "なし"
                 },
-                "studentCourseList": [
+                "studentCourseDetailList": [
                     {
-                        "courseId": "56",
-                        "courseName": "Javaコース"
-                    }
-                ]
+                       "studentCourse": {
+                           "courseId": "56",
+                           "courseName": "Javaコース"
+                       },
+                       "courseStatus": {
+                           "statusId": "1",
+                           "statusName": "受講中"
+                       }
+                   }
+                 ]
         }
         """;
 

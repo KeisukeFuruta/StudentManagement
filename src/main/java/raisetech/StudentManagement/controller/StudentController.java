@@ -12,14 +12,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.domain.StudentDetail;
-import raisetech.StudentManagement.exception.ErrorResponse;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -38,7 +39,7 @@ public class StudentController {
 
   /**
    * 受講生詳細の一覧検索です。
-   * 全件検索を行うので、条件指定は行わないません。
+   * 全件検索を行うので、条件指定は行ないません。
    *
    * @return　受講生詳細一覧（全件）
    */
@@ -70,7 +71,6 @@ public class StudentController {
       @Pattern(regexp = "^\\d+$", message = "IDは数字のみ入力してください。") String studentId) {
     return service.searchStudentDetail(studentId);
   }
-
 
   /**
    * 受講生詳細の登録を行います。
@@ -116,6 +116,22 @@ public class StudentController {
       @RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました。");
+  }
+
+  @GetMapping("/students/search")
+  public List<StudentDetail> searchStudent(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) String furigana,
+      @RequestParam(required = false) String residentialArea,
+      @RequestParam(required = false) Integer age,
+      @RequestParam(required = false) String gender,
+      @RequestParam(required = false) String remark,
+      @RequestParam(required = false) String courseName,
+      @RequestParam(required = false) String status
+  ) {
+
+    return service.searchStudentCondition(name, furigana, residentialArea, age, gender, remark,
+        courseName, status);
   }
 
   // エラーを投げる用のメソッド
